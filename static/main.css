@@ -1,0 +1,28 @@
+.main-container {
+
+}
+
+.page-content-wrapper {
+
+}
+
+.messages-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0px 10px;
+}
+
+.error-message {
+    color: #fff;
+    background-color: red;
+}
+
+.success-message {
+    color: #fff;
+    background-color: green;
+}
+
+@media (max-width: 576px) {
+
+}
