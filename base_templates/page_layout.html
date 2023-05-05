@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<div class="main-container">
+    <div class="navbar main-navbar sticky-top navbar-expand-sm">
+        <div class="container-fluid">
+            <div class="navbar-title-wrapper">
+                <a class="navbar-brand navbar-logo" href="{% url 'core:home' %}">
+                    IO
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar" aria-expanded="false">
+
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto">
+                  <li class="nav-item">
+                    <a class="nav-item-link" href="{% url 'authenticate:logout' %}">
+                        <img src="{% static 'icons/logout_icon.svg' %}">
+                        <span class="nav-item-link-text">Logout</span>
+                    </a>
+                  </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% block page_content %}
+    {% endblock %}
+</div>
+
+{% endblock %}
