@@ -1,5 +1,8 @@
 __pycache__/
 .idea/
-*.sqlite3
-*.db
 migrations/
+*.db
+*.sqlite3
+.env
+*.env
+*.log

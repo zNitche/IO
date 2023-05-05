@@ -24,15 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6_*0f6l%8*_0&7dy%vlb&bibw*3n(5-o2gi^cm#g77!zxktnyh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 1
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -40,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'core',
+    'authenticate',
 ]
+
+if DEBUG:
+    INSTALLED_APPS.append("django.contrib.admin")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -121,3 +124,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.User"
+LOGIN_REDIRECT_URL = "core:home"
+LOGIN_URL = "authenticate:login"

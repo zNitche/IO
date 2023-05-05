@@ -1,28 +1,145 @@
-.main-container {
+body {
+    background-color: #152042 !important;
+}
 
+.main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: #ffffff;
+}
+
+.login-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #223767;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0;
+}
+
+.form-inputs-container {
+    display: flex;
+}
+
+.login-button {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.accept-button {
+    background-color: #2970ff !important;
+    color: #fff !important;
+}
+
+.accept-button:hover {
+    background-color: #2051b3 !important;
+}
+
+.main-navbar {
+    background-color: #27468c;
+    padding: 0 20% !important;
+}
+
+.nav-item-link {
+    text-decoration: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.nav-item-link-text {
+    color: #fff;
+}
+
+.navbar-logo {
+    color: #ffffff !important;
+}
+
+.navbar-toggler {
+    color: #152042 !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("icons/menu_icon.svg") !important;
+}
+
+.navbar-nav {
+    gap: 0 20px !important;
+    padding: 10px 0;
+}
+
+.navbar>.container-fluid {
+    padding: 0 !important;
 }
 
 .page-content-wrapper {
-
+    padding: 0 20%;
 }
 
-.messages-wrapper {
+.centered-content-wrapper {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
     width: 100%;
-    gap: 0px 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #223767;
+    padding: 30px;
+    border-radius: 10px;
 }
 
-.error-message {
-    color: #fff;
-    background-color: red;
+.flashed-messages-container {
+    display: flex;
+    flex-direction: column;
 }
 
-.success-message {
-    color: #fff;
-    background-color: green;
+.flashed-message-container {
+    padding: 10px;
+    color: #ffffff;
+}
+
+.flashed-message-container-success {
+    background-color: #28a745;
+}
+
+.flashed-message-container-error {
+    background-color: #dc3545;
 }
 
 @media (max-width: 576px) {
+    .navbar-nav {
+      align-items: flex-start !important;
+      gap: 20px 0;
+    }
+}
 
+@media (min-width: 576px) {
+  .nav-item-link-text {
+    display: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+    .main-navbar {
+        padding: 0 !important;
+    }
+
+    .page-content-wrapper {
+        padding: 0 !important;
+    }
+
+    .navbar>.container-fluid {
+        padding: 10px 20px !important;
+    }
 }
