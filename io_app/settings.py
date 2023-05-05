@@ -87,6 +87,25 @@ DATABASES = {
 }
 
 
+# Cache
+# https://docs.djangoproject.com/en/4.2/topics/cache/
+if DEBUG:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "unique-snowflake",
+        }
+    }
+
+else:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": f"redis://redis:6000/1",
+        }
+    }
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -95,6 +114,51 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'users.validators.PasswordLengthValidator',
     },
 ]
+
+
+# Logging
+# https://docs.djangoproject.com/en/4.2/topics/logging/
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {asctime} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "formatter": "verbose",
+            "filename": os.path.join(BASE_DIR, "logs", "log.log"),
+        },
+    },
+    "loggers": {
+        "main": {
+            "level": "INFO",
+            "handlers": ["file"],
+        },
+        "dev": {
+            "handlers": ["console"],
+            "propagate": True,
+            "level": "DEBUG",
+        },
+    },
+}
+
+LOGGER_NAME = "dev" if DEBUG else "main"
 
 
 # Internationalization
