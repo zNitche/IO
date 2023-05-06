@@ -18,8 +18,8 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path("", include("core.urls")),
-    path("auth/", include("authenticate.urls")),
+    path("", include("io_app.apps.core.urls")),
+    path("auth/", include("io_app.apps.authenticate.urls")),
 ]
 
 
@@ -29,6 +29,6 @@ if settings.DEBUG:
     urlpatterns.append(path('admin/', admin.site.urls))
 
 
-handler404 = "core.error_views.not_found"
-handler500 = "core.error_views.server_error"
-handler400 = "core.error_views.bad_request"
+handler404 = "io_app.apps.core.error_views.not_found"
+handler500 = "io_app.apps.core.error_views.server_error"
+handler400 = "io_app.apps.core.error_views.bad_request"

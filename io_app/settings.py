@@ -14,7 +14,8 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = BASE_DIR.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
-    'core',
-    'authenticate',
+    'io_app.apps.users',
+    'io_app.apps.core',
+    'io_app.apps.authenticate',
 ]
 
 if DEBUG:
@@ -60,7 +61,7 @@ ROOT_URLCONF = 'io_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "base_templates")],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,7 +83,7 @@ WSGI_APPLICATION = 'io_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, "database", "app.sqlite3"),
+        'NAME': os.path.join(PROJECT_DIR, "database", "app.sqlite3"),
     }
 }
 
@@ -111,7 +112,7 @@ else:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'users.validators.PasswordLengthValidator',
+        'NAME': 'io_app.apps.users.validators.PasswordLengthValidator',
     },
 ]
 
@@ -142,7 +143,7 @@ LOGGING = {
             "level": "INFO",
             "class": "logging.FileHandler",
             "formatter": "verbose",
-            "filename": os.path.join(BASE_DIR, "logs", "log.log"),
+            "filename": os.path.join(PROJECT_DIR, "logs", "log.log"),
         },
     },
     "loggers": {

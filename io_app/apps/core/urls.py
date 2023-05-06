@@ -1,5 +1,5 @@
 from django.urls import path
-from core import views
+from io_app.apps.core import views
 
 
 app_name = "core"
