@@ -1,18 +1,16 @@
-{% extends "base.html" %}
+{% extends "page_layout.html" %}
 {% load static %}
-{% block content %}
+{% block page_content %}
 
-<div class="main-container">
-    <div class="login-container">
-        <form method="POST">
-            {% csrf_token %}
-            {{ form }}
+<div class="login-container">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
 
-            <button class="accept-button btn login-button" type="submit">
-                Login
-            </button>
-        </form>
-    </div>
+        <button class="accept-button btn login-button" type="submit">
+            Login
+        </button>
+    </form>
 </div>
 
 {% endblock %}
