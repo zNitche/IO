@@ -9,7 +9,7 @@ body {
     color: #ffffff;
 }
 
-.login-container {
+.centered-container {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -46,7 +46,7 @@ body {
 .main-navbar {
     background-color: #27468c;
     padding: 0 20% !important;
-    min-height: 56px;
+    max-height: 56px;
 }
 
 .nav-item {
@@ -136,18 +136,7 @@ body {
 }
 
 @media (max-width: 576px) {
-    .navbar-nav {
-      align-items: flex-start !important;
-      gap: 20px 0 !important;
-    }
 
-    .nav-item-link {
-      gap: 0 10px !important;
-    }
-
-    .dropdown {
-        display: list-item !important;
-    }
 }
 
 @media (min-width: 767.98px) {
@@ -167,6 +156,20 @@ body {
 
     .main-navbar {
         padding: 0 !important;
+        max-height: unset !important;
+    }
+
+    .navbar-nav {
+      align-items: flex-start !important;
+      gap: 20px 0 !important;
+    }
+
+    .nav-item-link {
+      gap: 0 10px !important;
+    }
+
+    .dropdown {
+        display: list-item !important;
     }
 }
 

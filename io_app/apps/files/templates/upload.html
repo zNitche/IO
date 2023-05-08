@@ -1,0 +1,13 @@
+{% extends "page_layout.html" %}
+{% load static %}
+{% block page_content %}
+    <div class="centered-container">
+        <div class="file-upload-wrapper">
+            <img src="{% static 'icons/upload_icon.svg' %}">
+        </div>
+        <input type="file" id="file-input">
+        <button class="btn btn-primary" onclick="asyncSendFile('{{ upload_url }}', '{{ csrf_token }}');">Upload</button>
+    </div>
+
+<script src="{% static 'js/files_upload.js' %}"></script>
+{% endblock %}
