@@ -192,3 +192,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "users.User"
 LOGIN_REDIRECT_URL = "core:home"
 LOGIN_URL = "authenticate:login"
+
+
+FILES_UPLOAD_CHUNK_LENGTH = 8192
+FILES_DIR = os.path.join(PROJECT_DIR, "files")

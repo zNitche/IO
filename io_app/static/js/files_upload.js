@@ -13,7 +13,7 @@ function asyncSendFile(upload_url, csrf_token) {
         xhr.upload.addEventListener("progress", uploadProgressHandler, false);
 
         xhr.onloadend = function(event) {
-
+            onUploadFinished(event);
         }
 
         xhr.open("POST", upload_url, true);
@@ -25,4 +25,12 @@ function asyncSendFile(upload_url, csrf_token) {
 
         xhr.send(file);
     }
+}
+
+
+function onUploadFinished(event) {
+    const response = event.currentTarget;
+    const message = JSON.parse(response.responseText).message;
+
+    alert(message);
 }

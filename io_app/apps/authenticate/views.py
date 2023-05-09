@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from io_app.apps.authenticate import forms
-from io_app.apps.core.consts import MessagesConsts
+from io_app.consts import MessagesConsts
 
 
 @require_http_methods(["GET", "POST"])
