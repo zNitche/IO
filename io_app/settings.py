@@ -96,8 +96,8 @@ DATABASES = {
 if DEBUG:
     CACHES = {
         "default": {
-            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-            "LOCATION": "unique-snowflake",
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": f"redis://127.0.0.1:6000/1",
         }
     }
 
