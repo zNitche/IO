@@ -12,20 +12,22 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = BASE_DIR.parent
 
+dotenv.load_dotenv(os.path.join(PROJECT_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6_*0f6l%8*_0&7dy%vlb&bibw*3n(5-o2gi^cm#g77!zxktnyh'
+SECRET_KEY = os.getenv("SECRET_KEY", os.urandom(25))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 1
+DEBUG = int(os.getenv("DEBUG", 0))
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]"]
 
@@ -106,6 +108,8 @@ else:
             "LOCATION": f"redis://redis:6000/1",
         }
     }
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 
 # Password validation
