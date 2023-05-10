@@ -198,5 +198,8 @@ LOGIN_REDIRECT_URL = "core:home"
 LOGIN_URL = "authenticate:login"
 
 
-FILES_UPLOAD_CHUNK_LENGTH = 8192
-FILES_DIR = os.path.join(PROJECT_DIR, "files")
+# Files uploads config
+
+# 4MB in bytes
+FILES_UPLOAD_CHUNK_LENGTH = 4194304
+STORAGE_PATH = os.path.join(PROJECT_DIR, "storage")

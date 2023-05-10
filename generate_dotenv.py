@@ -7,6 +7,7 @@ def get_main_config():
         "SECRET_KEY": secrets.token_hex(32),
         "DB_PATH": "",
         "LOGS_PATH": "",
+        "STORAGE_PATH": "",
         "DEBUG": "0",
     }
 

@@ -6,4 +6,4 @@ migrations/
 .env
 *.env
 *.log
-files/
+storage/
