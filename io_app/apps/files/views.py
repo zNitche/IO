@@ -27,17 +27,13 @@ def upload_view(request):
 @require_http_methods(["POST"])
 def upload(request):
     filename = request.headers["X-File-Name"]
+    file_size = int(request.headers["X-File-Size"])
     file_extension = filename.split(".")[-1]
-
-    response_data = {
-        "message": MessagesConsts.FILE_UPLOADED_SUCCESSFULLY.format(filename=filename)
-    }
-    response_status = 200
 
     files_utils.make_files_dir_for_user(request.user.id)
 
     file_uuid = str(uuid.uuid4().hex)
-    file_path = os.path.join(settings.FILES_DIR, str(request.user.id), file_uuid)
+    file_path = os.path.join(settings.STORAGE_PATH, str(request.user.id), file_uuid)
 
     try:
         with open(file_path, "wb") as data:
@@ -49,9 +45,29 @@ def upload(request):
 
                 data.write(file_chunk)
 
-        models.File(name=filename, uuid=file_uuid, extension=file_extension,
-                    size=files_utils.get_size_of_file(file_path),
-                    owner_id=request.user.id).save()
+        uploaded_file_size = files_utils.get_size_of_file(file_path)
+
+        if uploaded_file_size == file_size:
+            models.File(name=filename, uuid=file_uuid, extension=file_extension,
+                        size=uploaded_file_size,
+                        owner_id=request.user.id).save()
+
+            response_message = MessagesConsts.FILE_UPLOADED_SUCCESSFULLY.format(filename=filename)
+            response_status = 200
+
+        else:
+            response_message = MessagesConsts.FILE_UPLOAD_FAILED_SIZE_MISMATCH
+            response_status = 500
+
+            logger.error(MessagesConsts.FILE_UPLOAD_FAILED_SIZE_MISMATCH_LOG.format(
+                filename=filename, org_size=str(file_size), saved_size=str(uploaded_file_size))
+            )
+
+            files_utils.remove_user_file(request.user.id, file_uuid)
+
+        response_data = {
+            "message": response_message
+        }
 
     except Exception as e:
         response_data = {

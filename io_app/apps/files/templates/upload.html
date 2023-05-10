@@ -1,13 +1,29 @@
 {% extends "page_layout.html" %}
 {% load static %}
 {% block page_content %}
-    <div class="centered-container">
-        <div class="file-upload-wrapper">
-            <img src="{% static 'icons/upload_icon.svg' %}">
+    <div class="centered-container upload-container">
+        <div id="file-upload-form-wrapper">
+            <div class="file-upload-wrapper" id="file-upload-wrapper">
+                <label for="file-upload" class="file-upload-label">
+                    <img src="{% static 'icons/upload_icon.svg' %}">
+                </label>
+                <input id="file-upload" class="file-upload-input" type="file">
+            </div>
+            <span class="d-none upload-file-name-wrapper" id="upload-file-name-wrapper"></span>
+            <button id="upload-button" class="btn btn-primary w-100 disabled" onclick="uploadFile('{{ upload_url }}', '{{ csrf_token }}');">
+                Upload
+            </button>
         </div>
-        <input type="file" id="file-input">
-        <button class="btn btn-primary" onclick="asyncSendFile('{{ upload_url }}', '{{ csrf_token }}');">Upload</button>
+        <div class="file-upload-details-wrapper d-none" id="file-upload-details-wrapper">
+            <span id="upload-file-name"></span>
+            <progress id="upload-file-progress" class="upload-file-progress" max="100" value="0"></progress>
+            <span class="upload-file-progress-value" id="upload-file-progress-value">0%</span>
+        </div>
     </div>
 
 <script src="{% static 'js/files_upload.js' %}"></script>
+<script>
+    const fileInput = document.getElementById("file-upload");
+    fileInput.addEventListener("change", onFileSelected);
+</script>
 {% endblock %}
