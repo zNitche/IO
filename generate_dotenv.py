@@ -8,6 +8,7 @@ def get_main_config():
         "DB_PATH": "",
         "LOGS_PATH": "",
         "STORAGE_PATH": "",
+        "FILES_UPLOAD_CHUNK_LENGTH": "4194304",
         "DEBUG": "0",
     }
 
