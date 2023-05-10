@@ -17,15 +17,15 @@ logger = logging.getLogger(settings.LOGGER_NAME)
 
 @login_required
 @require_http_methods(["GET"])
-def upload_view(request):
+def upload(request):
     return render(request, "upload.html", {
-        "upload_url": reverse("files:upload")
+        "upload_url": reverse("files:upload_file")
     })
 
 
 @login_required
 @require_http_methods(["POST"])
-def upload(request):
+def upload_file(request):
     filename = request.headers["X-File-Name"]
     file_size = int(request.headers["X-File-Size"])
     file_extension = filename.split(".")[-1]
