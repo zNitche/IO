@@ -1,6 +1,22 @@
 {% extends "page_layout.html" %}
 {% load static %}
 {% block page_content %}
+    <!-- Info Modal -->
+    <div class="modal fade" id="uploadInfoModal" tabindex="-1" aria-labelledby="uploadInfoModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content info-modal-content">
+          <div class="modal-header border-0">
+            <h5 class="modal-title">Upload finished</h5>
+          </div>
+          <div class="modal-body" id="upload-info-modal-text"></div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
     <div class="centered-container upload-container">
         <div id="file-upload-form-wrapper">
             <div class="file-upload-wrapper" id="file-upload-wrapper">

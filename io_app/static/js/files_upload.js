@@ -40,7 +40,7 @@ function onUploadFinished(event) {
     const response = event.currentTarget;
     const message = JSON.parse(response.responseText).message;
 
-    alert(message);
+    showInfoModal("uploadInfoModal", message);
 
     hideFileUploadDetailsContainer();
     toggleFileUploadElements();
@@ -97,4 +97,11 @@ function showFileUploadDetailsContainer() {
 function hideFileUploadDetailsContainer() {
     const fileUploadDetailsContainer = document.getElementById("file-upload-details-wrapper");
     fileUploadDetailsContainer.classList.add("d-none")
+}
+
+function showInfoModal(modalID, text) {
+    let modal = new bootstrap.Modal(document.getElementById(modalID));
+
+    document.getElementById("upload-info-modal-text").innerHTML = text;
+    modal.show();
 }

@@ -171,6 +171,11 @@ body {
     justify-content: flex-end;
 }
 
+.info-modal-content {
+    background-color: #223767 !important;
+    color: #fff !important;
+}
+
 .flashed-messages-container {
     display: flex;
     flex-direction: column;
