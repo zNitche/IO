@@ -1,8 +1,8 @@
 from django.urls import path
-from io_app.apps.files import views
+from io_app.apps.files_manager import views
 
 
-app_name = "files"
+app_name = "files_manager"
 
 urlpatterns = [
     path("upload/", views.upload, name="upload"),

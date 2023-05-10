@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'io_app.apps.users',
     'io_app.apps.core',
     'io_app.apps.authenticate',
-    'io_app.apps.files',
+    'io_app.apps.files_manager',
 ]
 
 if DEBUG:

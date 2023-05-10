@@ -1,6 +1,6 @@
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
-from io_app.apps.files import models
+from io_app.apps.files_manager import models
 from io_app.utils import files_utils
 
 

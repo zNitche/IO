@@ -1,5 +1,5 @@
 from django.contrib import admin
-from io_app.apps.files import admin_models, models
+from io_app.apps.files_manager import admin_models, models
 
 
 # Register your models here.

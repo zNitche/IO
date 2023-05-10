@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.conf import settings
 from io_app.utils import files_utils
-from io_app.apps.files import models
+from io_app.apps.files_manager import models
 from io_app.consts import MessagesConsts
 import uuid
 import logging
@@ -19,7 +19,7 @@ logger = logging.getLogger(settings.LOGGER_NAME)
 @require_http_methods(["GET"])
 def upload(request):
     return render(request, "upload.html", {
-        "upload_url": reverse("files:upload_file")
+        "upload_url": reverse("files_manager:upload_file")
     })
 
 
