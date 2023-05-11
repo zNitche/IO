@@ -52,12 +52,11 @@ function onUploadFinished(event) {
 
 function onFileSelected(event) {
     const filesInput = event.currentTarget;
+    const fileNameWrapper = document.getElementById("upload-file-name-wrapper");
 
     if (filesInput.files[0]) {
         const filesUploadButton = document.getElementById("upload-button");
         filesUploadButton.classList.remove("disabled");
-
-        const fileNameWrapper = document.getElementById("upload-file-name-wrapper");
 
         fileNameWrapper.classList.remove("d-none");
         fileNameWrapper.innerHTML = filesInput.files[0].name;

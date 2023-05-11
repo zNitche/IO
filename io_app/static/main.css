@@ -100,6 +100,8 @@ body {
 
 .page-content-wrapper {
     padding: 0 20%;
+    display: flex;
+    flex-direction: column;
 }
 
 .centered-content-wrapper {
@@ -194,6 +196,53 @@ body {
     background-color: #dc3545;
 }
 
+.files-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    background-color: #223767;
+    border-radius: 5px;
+    padding: 10px 0;
+}
+
+.files-wrapper h3 {
+    padding: 0 10px;
+    margin-bottom: 15px;
+}
+
+.files-container {
+    display: flex;
+    flex-direction: row;
+    gap: 0 10px;
+    flex-wrap: wrap;
+}
+
+.my-files-container {
+    flex-direction: column !important;
+    gap: 10px 0 !important;
+    cursor: pointer;
+}
+
+.my-file:hover {
+    background-color: #2a4991;
+}
+
+.recent-file {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.recent-file:hover {
+    background-color: #2a4991;
+}
+
+.file-info-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0;
+}
+
 @media (max-width: 576px) {
 
 }
@@ -206,7 +255,7 @@ body {
 
 @media (max-width: 767.98px) {
     .page-content-wrapper {
-        padding: 0 !important;
+        padding: 0 10px !important;
     }
 
     .navbar>.container-fluid {
@@ -229,6 +278,11 @@ body {
 
     .dropdown {
         display: list-item !important;
+    }
+
+    .files-container {
+        flex-direction: column !important;
+        gap: 10px 0 !important;
     }
 }
 

@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.conf import settings
-from io_app.utils import files_utils
+from django.contrib import messages
+from io_app.utils import files_utils, common_utils
 from io_app.apps.files_manager import models
 from io_app.consts import MessagesConsts
 import uuid
@@ -26,7 +27,7 @@ def upload(request):
 @login_required
 @require_http_methods(["POST"])
 def upload_file(request):
-    filename = request.headers["X-File-Name"]
+    filename = request.headers["X-File-Name"].replace("/", "-")
     file_size = int(request.headers["X-File-Size"])
     file_extension = filename.split(".")[-1]
 
@@ -81,3 +82,32 @@ def upload_file(request):
         pass
 
     return JsonResponse(data=response_data, status=response_status)
+
+
+@login_required
+@require_http_methods(["GET"])
+def download(request, file_uuid):
+    file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
+    file_path = os.path.join(settings.STORAGE_PATH, str(request.user.id), file.uuid)
+
+    return common_utils.send_file(file_path, file.name)
+
+
+@login_required
+@require_http_methods(["POST"])
+def remove(request, file_uuid):
+    file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
+    file.delete()
+
+    messages.add_message(request, messages.SUCCESS, MessagesConsts.FILE_REMOVED_SUCCESSFULLY)
+
+    return HttpResponseRedirect(request.POST.get("next", "/"))
+
+
+@login_required
+@require_http_methods(["GET"])
+def preview_raw(request, file_uuid):
+    file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
+    file_path = os.path.join(settings.STORAGE_PATH, str(request.user.id), file.uuid)
+
+    return common_utils.send_file(file_path, file.name, as_attachment=False)

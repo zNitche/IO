@@ -1,6 +1,106 @@
 {% extends "page_layout.html" %}
+{% load static %}
 {% block page_content %}
-    <div class="page-content-wrapper">
-        Home Page
+    <!-- Remove File Modal -->
+    <div class="modal fade" id="removeFileModal" tabindex="-1" aria-labelledby="removeFileModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content info-modal-content">
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="modal-remove-file-name"></h5>
+          </div>
+          <div class="modal-body file-info-modal-body">
+              Do you want to remove file ?
+          </div>
+          <div class="modal-footer border-0">
+              <form id="modal-file-remove" method="post" action="">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.path }}">
+                  <button type="submit" class="btn btn-danger">Remove</button>
+              </form>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Info Modal -->
+    <div class="modal fade" id="fileInfoModal" tabindex="-1" aria-labelledby="fileInfoModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content info-modal-content">
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="modal-file-name"></h5>
+          </div>
+          <div class="modal-body file-info-modal-body">
+              <span>
+                  <b>UUID:</b> <span id="modal-file-uuid"></span>
+              </span>
+              <span>
+                  <b>Size:</b> <span id="modal-file-size"></span>
+              </span>
+              <span>
+                  <b>Extension:</b> <span id="modal-file-extension"></span>
+              </span>
+              <span>
+                  <b>Upload date:</b> <span id="modal-file-date"></span>
+              </span>
+          </div>
+          <div class="modal-footer border-0">
+              <a class="btn btn-secondary" href="#" role="button" target="_blank" id="modal-file-preview">
+                  Preview
+              </a>
+
+              <form id="modal-file-download" method="get" action="">
+                  <button type="submit" class="btn btn-primary">Download</button>
+              </form>
+              <button type="button" class="btn btn-danger" data-bs-target="#removeFileModal" data-bs-toggle="modal">
+                  Remove
+              </button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="page-content-wrapper">
+        {% if recent_files|length > 0 %}
+            <div class="files-wrapper">
+                <h3>
+                    Recent files
+                </h3>
+                <div class="files-container">
+                    {% for file in recent_files %}
+                        <div class="recent-file"
+                             onclick="showFileInfoModal('fileInfoModal', '{{file.name}}', '{{file.get_file_size_in_mb}}',
+                              '{{file.extension}}', '{{file.uuid}}', '{{file.upload_date|date:'d-m-Y G:i'}}',
+                              '{% url 'files_manager:download_file' file_uuid=file.uuid %}',
+                              '{% url 'files_manager:remove_file' file_uuid=file.uuid %}',
+                              '{% url 'files_manager:preview_raw' file_uuid=file.uuid %}');">
+                            <img src="{% static 'icons/file_icon.svg' %}">
+                            <span>{{ file.name }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="files-wrapper">
+                <h3>
+                    My files
+                </h3>
+                <div class="files-container my-files-container">
+                    {% for file in files %}
+                        <div class="my-file"
+                             onclick="showFileInfoModal('fileInfoModal', '{{file.name}}', '{{file.get_file_size_in_mb}}',
+                              '{{file.extension}}', '{{file.uuid}}', '{{file.upload_date|date:'d-m-Y G:i'}}',
+                              '{% url 'files_manager:download_file' file_uuid=file.uuid %}',
+                              '{% url 'files_manager:remove_file' file_uuid=file.uuid %}',
+                              '{% url 'files_manager:preview_raw' file_uuid=file.uuid %}');">
+                            <img src="{% static 'icons/file_icon.svg' %}">
+                            <span>{{ file.name }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+<script src="{% static 'js/my_files.js' %}"></script>
 {% endblock %}
