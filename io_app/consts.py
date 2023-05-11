@@ -6,3 +6,7 @@ class MessagesConsts:
     FILE_UPLOAD_FAILED_SIZE_MISMATCH = "file upload failed size mismatch"
     FILE_UPLOAD_FAILED_SIZE_MISMATCH_LOG = "file upload '{filename}' failed size mismatch, {org_size} vs {saved_size}"
     FILE_REMOVED_SUCCESSFULLY = "File removed successfully"
+
+
+class PaginationConsts:
+    FILES_PER_PAGE = 25

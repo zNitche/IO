@@ -87,7 +87,7 @@
                     My files
                 </h3>
                 <div class="files-container my-files-container">
-                    {% for file in files %}
+                    {% for file in files_page %}
                         <div class="my-file"
                              onclick="showFileInfoModal('fileInfoModal', '{{file.name}}', '{{file.get_file_size_in_mb}}',
                               '{{file.extension}}', '{{file.uuid}}', '{{file.upload_date|date:'d-m-Y G:i'}}',
@@ -99,6 +99,21 @@
                         </div>
                     {% endfor %}
                 </div>
+                {% if files_page.has_next or files_page.has_previous %}
+                    <div class="pagination-controls">
+                        {% if files_page.has_previous %}
+                            <a class="pagination-controls-item" href="{% url 'core:home' page_id=files_page.previous_page_number %}">
+                                <img src="{% static 'icons/navigate_before_icon.svg' %}">
+                            </a>
+                        {% endif %}
+                        {% if files_page.has_next %}
+                            <a class="pagination-controls-item {% if not files_page.has_previous %} left-p-controls-item {% endif %}"
+                               href="{% url 'core:home' page_id=files_page.next_page_number %}">
+                                <img src="{% static 'icons/navigate_next_icon.svg' %}">
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
         {% endif %}
     </div>

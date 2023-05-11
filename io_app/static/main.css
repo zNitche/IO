@@ -243,6 +243,22 @@ body {
     gap: 10px 0;
 }
 
+.pagination-controls {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.left-p-controls-item {
+    margin-left: auto;
+}
+
+.pagination-controls a {
+    color: #fff;
+    text-decoration: none;
+}
+
 @media (max-width: 576px) {
 
 }
