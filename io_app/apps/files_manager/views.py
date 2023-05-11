@@ -36,50 +36,51 @@ def upload_file(request):
     file_uuid = str(uuid.uuid4().hex)
     file_path = os.path.join(settings.STORAGE_PATH, str(request.user.id), file_uuid)
 
-    try:
-        with open(file_path, "wb") as data:
-            while True:
-                file_chunk = request.read(settings.FILES_UPLOAD_CHUNK_LENGTH)
+    user_storage_size = files_utils.get_user_storage_size(request.user.id)
 
-                if len(file_chunk) <= 0:
-                    break
+    if (file_size + user_storage_size) <= request.user.get_private_storage_space():
+        try:
+            files_utils.save_file_from_request(request, file_path)
+            uploaded_file_size = files_utils.get_size_of_file(file_path)
 
-                data.write(file_chunk)
+            if uploaded_file_size == file_size:
+                models.File(name=filename, uuid=file_uuid, extension=file_extension,
+                            size=uploaded_file_size,
+                            owner_id=request.user.id).save()
 
-        uploaded_file_size = files_utils.get_size_of_file(file_path)
+                response_message = MessagesConsts.FILE_UPLOADED_SUCCESSFULLY.format(filename=filename)
+                response_status = 200
 
-        if uploaded_file_size == file_size:
-            models.File(name=filename, uuid=file_uuid, extension=file_extension,
-                        size=uploaded_file_size,
-                        owner_id=request.user.id).save()
+            else:
+                response_message = MessagesConsts.FILE_UPLOAD_FAILED_SIZE_MISMATCH
+                response_status = 500
 
-            response_message = MessagesConsts.FILE_UPLOADED_SUCCESSFULLY.format(filename=filename)
-            response_status = 200
+                logger.error(MessagesConsts.FILE_UPLOAD_FAILED_SIZE_MISMATCH_LOG.format(
+                    filename=filename, org_size=str(file_size), saved_size=str(uploaded_file_size))
+                )
 
-        else:
-            response_message = MessagesConsts.FILE_UPLOAD_FAILED_SIZE_MISMATCH
+                files_utils.remove_user_file(request.user.id, file_uuid)
+
+            response_data = {
+                "message": response_message
+            }
+
+        except Exception as e:
+            response_data = {
+                "message": MessagesConsts.ERROR_WHILE_UPLOADING_FILE.format(filename=filename)
+            }
             response_status = 500
 
-            logger.error(MessagesConsts.FILE_UPLOAD_FAILED_SIZE_MISMATCH_LOG.format(
-                filename=filename, org_size=str(file_size), saved_size=str(uploaded_file_size))
-            )
+            logger.error(MessagesConsts.ERROR_WHILE_UPLOADING_FILE_LOG.format(filename=filename, e=str(e)))
 
-            files_utils.remove_user_file(request.user.id, file_uuid)
+        finally:
+            pass
 
+    else:
         response_data = {
-            "message": response_message
-        }
-
-    except Exception as e:
-        response_data = {
-            "message": MessagesConsts.ERROR_WHILE_UPLOADING_FILE.format(filename=filename)
+            "message": MessagesConsts.ERROR_WHILE_UPLOADING_FILE_NO_SPACE.format(filename=filename)
         }
         response_status = 500
-
-        logger.error(MessagesConsts.ERROR_WHILE_UPLOADING_FILE_LOG.format(filename=filename, e=str(e)))
-
-    finally:
-        pass
 
     return JsonResponse(data=response_data, status=response_status)
 

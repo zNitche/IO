@@ -11,6 +11,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=datetime.now)
 
+    private_storage_space = models.IntegerField(default=0, null=False)
+
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []
 
@@ -18,3 +20,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+    def get_private_storage_space(self):
+        return self.private_storage_space * 1048576

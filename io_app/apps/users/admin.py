@@ -9,7 +9,7 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = User
 
-    list_display = ("username", "is_staff", "is_active",)
+    list_display = ("username", "is_staff", "is_active", "private_storage_space")
     list_filter = ("username", "is_staff", "is_active",)
 
     fieldsets = (
