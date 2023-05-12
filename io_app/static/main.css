@@ -275,6 +275,31 @@ body {
     height: 32px;
 }
 
+.content-wrapper-collapse-content {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0;
+}
+
+.no-bottom-padding {
+    padding-bottom: 0 !important;
+}
+
+.storage-usage-details-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.storage-usage-details {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+
+.storage-usage-details[aria-expanded="true"] .expand-icon {
+  transform: rotate(180deg);
+}
+
 @media (max-width: 576px) {
 
 }

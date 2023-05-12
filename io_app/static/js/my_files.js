@@ -19,15 +19,33 @@ function showFileInfoModal(modalID, filename, size, extension, uuid, upload_date
 }
 
 
-async function createStorageUsageGraphs() {
+async function initStorageUsageStats() {
     const storageUsageData = await getData("/api/storage_usage");
     const storageUsageByFiletypeData = await getData("/api/storage_usage_by_filetype");
 
-    console.log(storageUsageData)
-    console.log(storageUsageByFiletypeData)
-
     createDoughnutGraph("storage-usage", getDatasetForStorageUsageData(storageUsageData));
-    createDoughnutGraph("storage-usage-by-type", getDatasetForStorageUsageByFiletypeData(storageUsageByFiletypeData), false);
+    createDoughnutGraph("storage-usage-by-type", getDatasetForStorageUsageByFiletypeData(storageUsageByFiletypeData));
+
+    setStorageUsageDetails(storageUsageData);
+    setStorageUsageByTypeDetails(storageUsageByFiletypeData);
+}
+
+
+function setStorageUsageDetails(storageUsageData) {
+    document.getElementById("storage-usage-details-used").innerHTML = storageUsageData.free_space + "MB";
+    document.getElementById("storage-usage-details-free").innerHTML = storageUsageData.used_space + "MB";
+}
+
+
+function setStorageUsageByTypeDetails(storageUsageData) {
+    const container = document.getElementById("storage-usage-details-by-type");
+
+    for (let extension in storageUsageData) {
+        let detailItem = document.createElement("p");
+        detailItem.innerHTML = `<b>${extension}:</b> ${storageUsageData[extension]}%`
+
+        container.appendChild(detailItem);
+    }
 }
 
 

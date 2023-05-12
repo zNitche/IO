@@ -9,7 +9,7 @@
 
     <!-- Page content -->
     <div class="page-content-wrapper mb-3">
-        <div class="content-wrapper">
+        <div class="content-wrapper no-bottom-padding">
             <h3>
                 Storage usage
             </h3>
@@ -17,13 +17,26 @@
                 <div id="storage-usage" class="graph-wrapper"></div>
                 <div id="storage-usage-by-type" class="graph-wrapper"></div>
             </div>
-            <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse"
+            <button class="btn btn-primary mt-3 storage-usage-details" type="button" data-bs-toggle="collapse"
                     data-bs-target="#storage-usage-details" aria-expanded="false" aria-controls="storage-usage-details">
                 <img class="expand-icon" src="{% static 'icons/expand_icon.svg' %}">
             </button>
             <div class="collapse" id="storage-usage-details">
-              <div class="">
-                  Storage Details
+              <div class="content-wrapper-collapse-content">
+                  <h4>Usage</h4>
+                  <div class="storage-usage-details-wrapper">
+                      <p>
+                          <b>Total storage:</b> {{ user.private_storage_space }}MB
+                      </p>
+                      <p>
+                          <b>Used storage:</b> <span id="storage-usage-details-used">0MB</span>
+                      </p>
+                      <p>
+                          <b>Free storage:</b> <span id="storage-usage-details-free">0MB</span>
+                      </p>
+                  </div>
+                  <h4>Usage by filetype</h4>
+                  <div class="storage-usage-details-wrapper" id="storage-usage-details-by-type"></div>
               </div>
             </div>
         </div>
@@ -89,6 +102,6 @@
 <script src="{% static 'js/charts_utils.js' %}"></script>
 
 <script>
-    createStorageUsageGraphs();
+    initStorageUsageStats();
 </script>
 {% endblock %}
