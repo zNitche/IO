@@ -196,16 +196,16 @@ body {
     background-color: #dc3545;
 }
 
-.files-wrapper {
+.content-wrapper {
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
+    margin-top: 20px;
     background-color: #223767;
     border-radius: 5px;
     padding: 10px 0;
 }
 
-.files-wrapper h3 {
+.content-wrapper h3 {
     padding: 0 10px;
     margin-bottom: 15px;
 }
@@ -257,6 +257,10 @@ body {
 .pagination-controls a {
     color: #fff;
     text-decoration: none;
+}
+
+.graphs-container {
+
 }
 
 @media (max-width: 576px) {

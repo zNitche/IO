@@ -11,3 +11,7 @@ class MessagesConsts:
 
 class PaginationConsts:
     FILES_PER_PAGE = 25
+
+
+class SizesConsts:
+    BYTES_IN_MB = 1048576

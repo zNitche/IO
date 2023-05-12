@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from datetime import datetime
+from io_app.consts import SizesConsts
 
 
 class File(models.Model):
@@ -18,4 +19,4 @@ class File(models.Model):
         return self.uuid
 
     def get_file_size_in_mb(self):
-        return round((self.size / 1048576), 2)
+        return round((self.size / SizesConsts.BYTES_IN_MB), 2)

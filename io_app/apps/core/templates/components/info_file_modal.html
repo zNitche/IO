@@ -1,0 +1,38 @@
+{% load static %}
+
+<div class="modal fade" id="fileInfoModal" tabindex="-1" aria-labelledby="fileInfoModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content info-modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="modal-file-name"></h5>
+      </div>
+      <div class="modal-body file-info-modal-body">
+          <span>
+              <b>UUID:</b> <span id="modal-file-uuid"></span>
+          </span>
+          <span>
+              <b>Size:</b> <span id="modal-file-size"></span>
+          </span>
+          <span>
+              <b>Extension:</b> <span id="modal-file-extension"></span>
+          </span>
+          <span>
+              <b>Upload date:</b> <span id="modal-file-date"></span>
+          </span>
+      </div>
+      <div class="modal-footer border-0">
+          <a class="btn btn-secondary" href="#" role="button" target="_blank" id="modal-file-preview">
+              Preview
+          </a>
+
+          <form id="modal-file-download" method="get" action="">
+              <button type="submit" class="btn btn-primary">Download</button>
+          </form>
+          <button type="button" class="btn btn-danger" data-bs-target="#removeFileModal" data-bs-toggle="modal">
+              Remove
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
