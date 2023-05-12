@@ -260,7 +260,19 @@ body {
 }
 
 .graphs-container {
+    display: flex;
+    flex-direction: row;
+    height: 200px;
+}
 
+.graph-wrapper {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.expand-icon {
+    height: 32px;
 }
 
 @media (max-width: 576px) {

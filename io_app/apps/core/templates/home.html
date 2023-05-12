@@ -8,13 +8,23 @@
     {% include "components/info_file_modal.html" %}
 
     <!-- Page content -->
-    <div class="page-content-wrapper">
+    <div class="page-content-wrapper mb-3">
         <div class="content-wrapper">
             <h3>
                 Storage usage
             </h3>
             <div class="graphs-container">
-                graphs
+                <div id="storage-usage" class="graph-wrapper"></div>
+                <div id="storage-usage-by-type" class="graph-wrapper"></div>
+            </div>
+            <button class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#storage-usage-details" aria-expanded="false" aria-controls="storage-usage-details">
+                <img class="expand-icon" src="{% static 'icons/expand_icon.svg' %}">
+            </button>
+            <div class="collapse" id="storage-usage-details">
+              <div class="">
+                  Storage Details
+              </div>
             </div>
         </div>
         {% if recent_files|length > 0 %}
@@ -72,8 +82,13 @@
         {% endif %}
     </div>
 <script src="{% static 'js/my_files.js' %}"></script>
-<script src="{% static 'js/charts_utils.js' %}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"
         onerror="fallbackToLocalJS(this, '{% static 'chart.js' %}');">
+</script>
+<script src="{% static 'js/charts_utils.js' %}"></script>
+
+<script>
+    createStorageUsageGraphs();
 </script>
 {% endblock %}
