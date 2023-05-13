@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.shortcuts import resolve_url
 from datetime import datetime
 from io_app.consts import MediaConsts
 from io_app.utils import files_utils
@@ -46,3 +47,9 @@ class File(models.Model):
 
     def get_directory_name(self):
         return self.directory.name if self.directory else "root"
+
+    def get_directory_url(self):
+        url = resolve_url("core:directory_content", directory_uuid=self.directory.uuid) \
+            if self.get_directory_name() != "root" else resolve_url("core:home")
+
+        return url
