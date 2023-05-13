@@ -1,0 +1,12 @@
+{% load static %}
+
+
+<div class="input-group">
+  <input type="text" class="form-control" value="{{search_value}}"
+         name="{{search_name}}" placeholder="{{search_placeholder}}">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="submit">
+        <img src="{% static 'icons/search_icon.svg' %}" alt="search">
+    </button>
+  </div>
+</div>

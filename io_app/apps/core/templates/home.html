@@ -56,15 +56,7 @@
             </h3>
             <div class="mb-3">
                 <form action="{% url 'core:home' %}" method="GET">
-                    <div class="input-group">
-                      <input type="text" class="form-control" value="{{search_file_name}}"
-                             name="search_file" placeholder="file name">
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit">
-                            <img src="{% static 'icons/search_icon.svg' %}" alt="search">
-                        </button>
-                      </div>
-                    </div>
+                    {% include "components/search_bar.html" with search_value=search_file_name search_name="search_file" search_placeholder="search files" %}
                 </form>
             </div>
 
