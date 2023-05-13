@@ -7,8 +7,7 @@ from django.conf import settings
 from django.contrib import messages
 from io_app.utils import files_utils, common_utils
 from io_app.apps.files_manager import models
-from io_app.consts import MessagesConsts
-import uuid
+from io_app.consts import MessagesConsts, MediaConsts
 import logging
 import os
 
@@ -29,7 +28,7 @@ def upload(request):
 def upload_file(request):
     filename = request.headers["X-File-Name"].replace("/", "-")
     file_size = int(request.headers["X-File-Size"])
-    file_extension = filename.split(".")[-1]
+    file_extension = filename.split(".")[-1].lower()
 
     files_utils.make_files_dir_for_user(request.user.id)
 
@@ -111,4 +110,8 @@ def preview_raw(request, file_uuid):
     file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
     file_path = os.path.join(settings.STORAGE_PATH, str(request.user.id), file.uuid)
 
-    return common_utils.send_file(file_path, file.name, as_attachment=False)
+    if file.extension in MediaConsts.COMMON_AUDIO_EXTENSIONS or file.extension in MediaConsts.COMMON_VIDEO_EXTENSIONS:
+        return common_utils.serve_media_file(file_path, file.name)
+
+    else:
+        return common_utils.send_file(file_path, file.name, as_attachment=False)

@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 import dotenv
-from io_app.consts import SizesConsts
+from io_app.consts import MediaConsts
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -202,5 +202,5 @@ LOGIN_URL = "authenticate:login"
 
 
 # Files uploads config
-FILES_UPLOAD_CHUNK_LENGTH = int(os.getenv("FILES_UPLOAD_CHUNK_LENGTH", SizesConsts.BYTES_IN_MB * 4))
+FILES_UPLOAD_CHUNK_LENGTH = int(os.getenv("FILES_UPLOAD_CHUNK_LENGTH", MediaConsts.BYTES_IN_MB * 4))
 STORAGE_PATH = os.path.join(PROJECT_DIR, "storage")

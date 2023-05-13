@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from datetime import datetime
 from io_app.apps.users.managers import UserManager
-from io_app.consts import SizesConsts
+from io_app.consts import MediaConsts
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -23,4 +23,4 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
 
     def get_private_storage_space(self):
-        return round((self.private_storage_space * SizesConsts.BYTES_IN_MB), 2)
+        return round((self.private_storage_space * MediaConsts.BYTES_IN_MB), 2)

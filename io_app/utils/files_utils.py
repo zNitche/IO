@@ -1,7 +1,7 @@
 from django.conf import settings
 import os
 import uuid
-from io_app.consts import SizesConsts
+from io_app.consts import MediaConsts
 
 
 def make_files_dir_for_user(user_id):
@@ -29,7 +29,7 @@ def get_user_storage_size(user_id):
 
 
 def get_user_storage_size_in_mb(user_id):
-    files_size = round((get_user_storage_size(user_id) / SizesConsts.BYTES_IN_MB), 2)
+    files_size = round((get_user_storage_size(user_id) / MediaConsts.BYTES_IN_MB), 2)
 
     return files_size
 

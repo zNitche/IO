@@ -13,5 +13,8 @@ class PaginationConsts:
     FILES_PER_PAGE = 25
 
 
-class SizesConsts:
+class MediaConsts:
     BYTES_IN_MB = 1048576
+
+    COMMON_VIDEO_EXTENSIONS = ["webm", "mp4"]
+    COMMON_AUDIO_EXTENSIONS = ["aac", "mp3", "ogg"]

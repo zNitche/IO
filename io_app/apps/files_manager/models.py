@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from datetime import datetime
-from io_app.consts import SizesConsts
+from io_app.consts import MediaConsts
 from io_app.utils import files_utils
 
 
@@ -20,7 +20,7 @@ class Directory(models.Model):
         return sum([file.size for file in self.files.all()])
 
     def get_size_in_mb(self):
-        return round((self.get_size() / SizesConsts.BYTES_IN_MB), 2)
+        return round((self.get_size() / MediaConsts.BYTES_IN_MB), 2)
 
     def get_files_count(self):
         return len(self.files.all())
@@ -42,7 +42,7 @@ class File(models.Model):
         return self.uuid
 
     def get_file_size_in_mb(self):
-        return round((self.size / SizesConsts.BYTES_IN_MB), 2)
+        return round((self.size / MediaConsts.BYTES_IN_MB), 2)
 
     def get_directory_name(self):
         return self.directory.name if self.directory else "root"
