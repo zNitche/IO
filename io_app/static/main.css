@@ -236,7 +236,7 @@ body {
     align-items: center;
     cursor: pointer;
     width: 20%;
-    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .recent-file:hover {

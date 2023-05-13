@@ -1,5 +1,6 @@
 from django.conf import settings
 import os
+import uuid
 from io_app.consts import SizesConsts
 
 
@@ -76,3 +77,7 @@ def save_file_from_request(request, file_path):
                 break
 
             data.write(file_chunk)
+
+
+def generate_uuid():
+    return str(uuid.uuid4().hex)

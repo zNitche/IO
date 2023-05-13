@@ -1,0 +1,62 @@
+{% extends "page_layout.html" %}
+{% load static %}
+{% block page_content %}
+    <!-- Remove Directory Modal -->
+    {% include "components/remove_directory_modal.html" %}
+
+    <!-- Info Directory Modal -->
+    {% include "components/info_directory_modal.html" %}
+
+    <!-- Page content -->
+    <div class="page-content-wrapper mb-3">
+        <!-- My Directories -->
+        <div class="content-wrapper">
+            <h3>
+                My Directories
+            </h3>
+            <div class="mb-3">
+                <form action="{% url 'core:directories' %}" method="GET">
+                    <div class="input-group">
+                      <input type="text" class="form-control" value="{{search_dir_name}}"
+                             name="search_dir" placeholder="directory name">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">
+                            <img src="{% static 'icons/search_icon.svg' %}" alt="search">
+                        </button>
+                      </div>
+                    </div>
+                </form>
+            </div>
+            <div class="files-container my-files-container">
+                {% for directory in directories_page %}
+                    <div class="my-file"
+                         onclick="showDirectoryInfoModal('directoryInfoModal', '{{directory.name}}', '{{directory.uuid}}',
+                          '{{directory.get_size_in_mb}}', '{{directory.get_files_count}}',
+                          '{{directory.creation_date|date:'d-m-Y G:i'}}',
+                          '#',
+                          '#',
+                          '{% url 'core:directory_content' directory_uuid=directory.uuid %}')">
+                        <img src="{% static 'icons/folder_icon.svg' %}">
+                        <span>{{ directory.name }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if directories_page.has_next or directories_page.has_previous %}
+                <div class="pagination-controls">
+                    {% if directories_page.has_previous %}
+                        <a class="pagination-controls-item" href="{% url 'core:directories' page_id=directories_page.previous_page_number %}">
+                            <img src="{% static 'icons/navigate_before_icon.svg' %}">
+                        </a>
+                    {% endif %}
+                    {% if files_page.has_next %}
+                        <a class="pagination-controls-item {% if not directories_page.has_previous %} left-p-controls-item {% endif %}"
+                           href="{% url 'core:directories' page_id=directories_page.next_page_number %}">
+                            <img src="{% static 'icons/navigate_next_icon.svg' %}">
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+<script src="{% static 'js/directories.js' %}"></script>
+{% endblock %}

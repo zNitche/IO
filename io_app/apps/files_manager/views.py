@@ -33,7 +33,7 @@ def upload_file(request):
 
     files_utils.make_files_dir_for_user(request.user.id)
 
-    file_uuid = str(uuid.uuid4().hex)
+    file_uuid = files_utils.generate_uuid()
     file_path = os.path.join(settings.STORAGE_PATH, str(request.user.id), file_uuid)
 
     user_storage_size = files_utils.get_user_storage_size(request.user.id)

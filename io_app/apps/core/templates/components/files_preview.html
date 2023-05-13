@@ -1,0 +1,15 @@
+{% load static %}
+
+<div class="files-container my-files-container">
+    {% for file in files_page %}
+        <div class="my-file"
+             onclick="showFileInfoModal('fileInfoModal', '{{file.name}}', '{{file.get_file_size_in_mb}}',
+                  '{{file.extension}}', '{{file.uuid}}', '{{file.upload_date|date:'d-m-Y G:i'}}', '{{file.get_directory_name}}',
+                  '{% url 'files_manager:download_file' file_uuid=file.uuid %}',
+                  '{% url 'files_manager:remove_file' file_uuid=file.uuid %}',
+                  '{% url 'files_manager:preview_raw' file_uuid=file.uuid %}');">
+            <img src="{% static 'icons/file_icon.svg' %}">
+            <span>{{ file.name }}</span>
+        </div>
+    {% endfor %}
+</div>
