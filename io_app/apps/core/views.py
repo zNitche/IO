@@ -8,7 +8,9 @@ from io_app.consts import PaginationConsts
 @login_required
 @require_http_methods(["GET"])
 def home(request, page_id=1):
-    files = request.user.files.order_by("-upload_date").all()
+    search_file_name = request.GET.get("search_file", "")
+
+    files = request.user.files.filter(name__contains=search_file_name).order_by("-upload_date").all()
     recent_files = files[:5]
 
     files_paginator = Paginator(files, PaginationConsts.FILES_PER_PAGE)
@@ -17,4 +19,5 @@ def home(request, page_id=1):
     return render(request, "home.html", {
         "recent_files": recent_files,
         "files_page": files_page,
+        "search_file_name": search_file_name,
     })

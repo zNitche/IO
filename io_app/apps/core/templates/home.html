@@ -9,17 +9,22 @@
 
     <!-- Page content -->
     <div class="page-content-wrapper mb-3">
-        <div class="content-wrapper no-bottom-padding">
-            <h3>
-                Storage usage
-            </h3>
-            <div class="graphs-container">
-                <div id="storage-usage" class="graph-wrapper">
-                    <span id="storage-used-space-value" class="storage-used-space-value"></span>
+        <div class="content-wrapper content-wrapper-loading" id="storage-usage-data-wrapper">
+            <div id="storage-usage-data" class="d-none">
+                <h3>
+                    Storage usage
+                </h3>
+                <div class="graphs-container">
+                    <div id="storage-usage" class="graph-wrapper">
+                        <span id="storage-used-space-value" class="storage-used-space-value"></span>
+                    </div>
+                    <div id="storage-usage-by-type" class="graph-wrapper"></div>
                 </div>
-                <div id="storage-usage-by-type" class="graph-wrapper"></div>
+                {% include "components/storage_details_collapsible.html" %}
             </div>
-            {% include "components/storage_details_collapsible.html" %}
+            <div class="spinner-border text-primary" id="storage-usage-data-spinner">
+              <span class="visually-hidden">Loading storage usage data</span>
+            </div>
         </div>
         {% if recent_files|length > 0 %}
             <div class="content-wrapper">
@@ -44,6 +49,19 @@
                 <h3>
                     My files
                 </h3>
+                <div class="mb-3">
+                    <form action="{% url 'core:home' %}" method="GET">
+                        <div class="input-group">
+                          <input type="text" class="form-control" value="{{search_file_name}}"
+                                 name="search_file" placeholder="file name">
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit">
+                                <img src="{% static 'icons/search_icon.svg' %}" alt="search">
+                            </button>
+                          </div>
+                        </div>
+                    </form>
+                </div>
                 <div class="files-container my-files-container">
                     {% for file in files_page %}
                         <div class="my-file"

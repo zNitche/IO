@@ -30,6 +30,12 @@ async function initStorageUsageStats() {
 
     setStorageUsageDetails(storageUsageData);
     setStorageUsageByTypeDetails(storageUsageByFiletypeData);
+
+    document.getElementById("storage-usage-data").classList.remove("d-none")
+    document.getElementById("storage-usage-data-wrapper").classList.remove("content-wrapper-loading")
+    document.getElementById("storage-usage-data-wrapper").classList.add("no-bottom-padding")
+
+    document.getElementById("storage-usage-data-spinner").classList.add("d-none")
 }
 
 

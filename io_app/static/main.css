@@ -205,6 +205,10 @@ body {
     padding: 10px 0;
 }
 
+.content-wrapper-loading {
+    align-items: center;
+}
+
 .content-wrapper h3 {
     padding: 0 10px;
     margin-bottom: 15px;
@@ -311,6 +315,7 @@ body {
 .storage-usage-details {
     border-top-left-radius: 0px !important;
     border-top-right-radius: 0px !important;
+    width: 100%;
 }
 
 .storage-usage-details[aria-expanded="true"] .expand-icon {
