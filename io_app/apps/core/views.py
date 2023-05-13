@@ -12,7 +12,7 @@ def home(request, page_id=1):
     search_file_name = request.GET.get("search_file", "")
 
     files = request.user.files.filter(name__contains=search_file_name).order_by("-upload_date").all()
-    recent_files = files[:5]
+    recent_files = request.user.files.order_by("-upload_date").all()[:5]
 
     files_paginator = Paginator(files, PaginationConsts.FILES_PER_PAGE)
     files_page = files_paginator.get_page(page_id)
@@ -34,7 +34,7 @@ def my_directories(request, page_id=1):
     directories_paginator = Paginator(directories, PaginationConsts.FILES_PER_PAGE)
     directories_page = directories_paginator.get_page(page_id)
 
-    return render(request, "my_directories.html", {
+    return render(request, "directories.html", {
         "directories_page": directories_page,
         "search_dir_name": search_dir_name,
     })
