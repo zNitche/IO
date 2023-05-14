@@ -1,5 +1,6 @@
-function showFileInfoModal(modalID, filename, size, extension, uuid, upload_date, directory_name,
-                           download_url, remove_url, preview_url, directory_url) {
+function showFileInfoModal(modalID, filename, size, extension, uuid, upload_date, directory_name, directory_url) {
+    const management_url_base = `/files/${uuid}`;
+
     let modal = new bootstrap.Modal(document.getElementById(modalID));
 
     document.getElementById("modal-file-name").innerHTML = filename;
@@ -12,9 +13,9 @@ function showFileInfoModal(modalID, filename, size, extension, uuid, upload_date
 
     document.getElementById("modal-file-directory-link").href = directory_url;
 
-    document.getElementById("modal-file-download").action = download_url;
-    document.getElementById("modal-file-remove").action = remove_url;
-    document.getElementById("modal-file-preview").href = preview_url;
+    document.getElementById("modal-file-download").action = `${management_url_base}/download/`;
+    document.getElementById("modal-file-remove").action = `${management_url_base}/remove/`;
+    document.getElementById("modal-file-preview").href = `${management_url_base}/preview/`;
 
     document.getElementById("modal-remove-file-name").innerHTML = filename;
 

@@ -21,13 +21,10 @@
             </div>
             <div class="files-container my-files-container">
                 {% for directory in directories_page %}
-                    <div class="my-file"
+                    <div class="file-wrapper"
                          onclick="showDirectoryInfoModal('directoryInfoModal', '{{directory.name}}', '{{directory.uuid}}',
                           '{{directory.get_size_in_mb}}', '{{directory.get_files_count}}',
-                          '{{directory.creation_date|date:'d-m-Y G:i'}}',
-                          '#',
-                          '#',
-                          '{% url 'core:directory_content' directory_uuid=directory.uuid %}')">
+                          '{{directory.creation_date|date:'d-m-Y G:i'}}')">
                         <img src="{% static 'icons/folder_icon.svg' %}">
                         <span>{{ directory.name }}</span>
                     </div>

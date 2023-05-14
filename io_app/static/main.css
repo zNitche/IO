@@ -227,7 +227,7 @@ body {
     cursor: pointer;
 }
 
-.my-file:hover {
+.file-wrapper:hover {
     background-color: #2a4991;
 }
 

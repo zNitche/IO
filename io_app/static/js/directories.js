@@ -1,5 +1,6 @@
-function showDirectoryInfoModal(modalID, name, uuid, size, files_count,
-                                creation_date, download_url, remove_url, preview_url) {
+function showDirectoryInfoModal(modalID, name, uuid, size, files_count, creation_date) {
+
+    const management_url_base = `/`;
 
     let modal = new bootstrap.Modal(document.getElementById(modalID));
 
@@ -10,9 +11,9 @@ function showDirectoryInfoModal(modalID, name, uuid, size, files_count,
     document.getElementById("modal-directory-files").innerHTML = files_count;
     document.getElementById("modal-directory-date").innerHTML = creation_date;
 
-    document.getElementById("modal-directory-download").action = download_url;
-    document.getElementById("modal-directory-remove").action = remove_url;
-    document.getElementById("modal-directory-preview").href = preview_url;
+    document.getElementById("modal-directory-download").action = "#";
+    document.getElementById("modal-directory-remove").action = "#";
+    document.getElementById("modal-directory-preview").href = `/directories/${uuid}/`;
 
     document.getElementById("modal-remove-directory-name").innerHTML = name;
 
