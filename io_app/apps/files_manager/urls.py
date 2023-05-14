@@ -11,4 +11,5 @@ urlpatterns = [
     path("<str:file_uuid>/remove/", views.remove_file, name="remove_file"),
     path("<str:file_uuid>/preview/", views.preview_raw, name="preview_raw"),
     path("<str:file_uuid>/management/", views.file_management, name="file_management"),
+    path("directories/add", views.add_directory, name="add_directory"),
 ]

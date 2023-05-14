@@ -1,0 +1,16 @@
+{% extends "page_layout.html" %}
+{% load static %}
+{% block page_content %}
+
+<div class="centered-container">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+
+        <button class="accept-button btn login-button" type="submit">
+            Add
+        </button>
+    </form>
+</div>
+
+{% endblock %}

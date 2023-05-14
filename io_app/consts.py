@@ -7,6 +7,8 @@ class MessagesConsts:
     FILE_UPLOAD_FAILED_SIZE_MISMATCH = "file upload failed size mismatch"
     FILE_UPLOAD_FAILED_SIZE_MISMATCH_LOG = "file upload '{filename}' failed size mismatch, {org_size} vs {saved_size}"
     FILE_REMOVED_SUCCESSFULLY = "File removed successfully"
+    DIRECTORY_EXISTS = "Directory exists"
+    DIRECTORY_ADDED = "Directory added successfully"
 
 
 class PaginationConsts:

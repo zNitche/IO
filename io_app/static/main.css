@@ -336,6 +336,10 @@ body {
     gap: 0 10px;
 }
 
+.form-errors-container {
+    color: red;
+}
+
 @media (max-width: 576px) {
 
 }
