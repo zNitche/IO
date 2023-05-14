@@ -60,12 +60,12 @@ function setStorageUsageByTypeDetails(storageUsageData) {
 
 function getDatasetForStorageUsageData(storageUsageData) {
     const data = {
-      labels: ["Free space", "Used space"],
+      labels: ["Used space", "Free space"],
       datasets: [
         {
-          data: [storageUsageData.free_space, storageUsageData.used_space],
+          data: [storageUsageData.used_space, storageUsageData.free_space],
           borderColor: "#223767",
-          backgroundColor: ["#2dd8a3", "#27468c"],
+          backgroundColor: ["#27468c", "#2dd8a3"],
         }
       ]
     };
