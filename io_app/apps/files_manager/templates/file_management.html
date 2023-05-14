@@ -10,7 +10,7 @@
             <h3>{{file.name}}</h3>
             <div class="file-details-wrapper">
               <span>
-                <b>UUID:</b> {{file.uuid}}
+                  <b>UUID:</b> {{file.uuid}}
               </span>
               <span>
                   <b>Directory:</b> <a href="{{file.get_directory_url}}">{{file.get_directory_name}}</a>
@@ -22,7 +22,7 @@
                   <b>Extension:</b> {{file.extension}}
               </span>
               <span>
-                  <b>Upload date:</b> {{file.upload_date}}
+                  <b>Upload date:</b> {{file.upload_date|date:'d-m-Y G:i'}}
               </span>
             </div>
             <div class="file-details-controls-wrapper">
@@ -30,10 +30,12 @@
                   Preview
               </a>
               <button type="button" class="btn btn-danger" data-bs-target="#removeFileModal" data-bs-toggle="modal">
-                Remove
+                  Remove
               </button>
               <form method="get" action="{% url 'files_manager:download_file' file_uuid=file.uuid %}">
-                <button type="submit" class="btn btn-primary">Download</button>
+                <button type="submit" class="btn btn-primary">
+                    Download
+                </button>
               </form>
             </div>
         </div>

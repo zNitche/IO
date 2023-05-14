@@ -1,7 +1,4 @@
 function showDirectoryInfoModal(modalID, name, uuid, size, files_count, creation_date) {
-
-    const management_url_base = `/`;
-
     let modal = new bootstrap.Modal(document.getElementById(modalID));
 
     document.getElementById("modal-directory-name").innerHTML = name;
@@ -13,6 +10,7 @@ function showDirectoryInfoModal(modalID, name, uuid, size, files_count, creation
 
     document.getElementById("modal-directory-download").action = "#";
     document.getElementById("modal-directory-preview").href = `/directories/${uuid}/`;
+    document.getElementById("modal-directory-management").href = `/files/directories/${uuid}/management`;
 
     modal.show();
 }

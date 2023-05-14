@@ -1,0 +1,41 @@
+{% extends "page_layout.html" %}
+{% load static %}
+{% block page_content %}
+    <!-- Remove Modal -->
+    {% include "components/modals/remove_directory_modal.html" with directory=directory %}
+
+    <!-- Page content -->
+    <div class="page-content-wrapper mb-3">
+        <div class="content-wrapper">
+            <h3>{{directory.name}}</h3>
+            <div class="file-details-wrapper">
+              <span>
+                  <b>UUID:</b> {{directory.uuid}}
+              </span>
+              <span>
+                  <b>Size:</b> {{directory.get_size_in_mb}}MB</span>
+              </span>
+              <span>
+                  <b>Files:</b> {{directory.get_files_count}}</span>
+              </span>
+              <span>
+                  <b>Creation date:</b> {{directory.creation_date|date:'d-m-Y G:i'}}</span>
+              </span>
+            </div>
+            <div class="file-details-controls-wrapper">
+              <a class="btn btn-secondary" href="{% url 'core:directory_content' directory_uuid=directory.uuid %}" role="button" target="_blank">
+                  Open
+              </a>
+              <button type="button" class="btn btn-danger" data-bs-target="#removeDirectoryModal" data-bs-toggle="modal">
+                  Remove
+              </button>
+              <form method="get" action="#">
+                <button type="submit" class="btn btn-primary">
+                    Download
+                </button>
+              </form>
+            </div>
+        </div>
+    </div>
+<script src="{% static 'js/directories.js' %}"></script>
+{% endblock %}

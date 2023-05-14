@@ -147,3 +147,26 @@ def add_directory(request):
             return redirect("core:directories")
 
     return render(request, "add_directory.html", {"form": form})
+
+
+@login_required
+@require_http_methods(["GET"])
+def directory_management(request, directory_uuid):
+    directory = get_object_or_404(models.Directory, uuid=directory_uuid, owner=request.user)
+
+    context = {
+        "directory": directory,
+    }
+
+    return render(request, "directory_management.html", context)
+
+
+@login_required
+@require_http_methods(["POST"])
+def remove_directory(request, directory_uuid):
+    directory = get_object_or_404(models.Directory, uuid=directory_uuid, owner=request.user)
+    directory.delete()
+
+    messages.add_message(request, messages.SUCCESS, MessagesConsts.DIRECTORY_REMOVED_SUCCESSFULLY)
+
+    return redirect("core:directories")
