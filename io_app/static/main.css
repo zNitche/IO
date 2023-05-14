@@ -322,6 +322,20 @@ body {
   transform: rotate(180deg);
 }
 
+.file-details-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px 0;
+}
+
+.file-details-controls-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 10px;
+    gap: 0 10px;
+}
+
 @media (max-width: 576px) {
 
 }

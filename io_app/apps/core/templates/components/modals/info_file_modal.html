@@ -8,9 +8,6 @@
       </div>
       <div class="modal-body file-info-modal-body">
           <span>
-              <b>UUID:</b> <span id="modal-file-uuid"></span>
-          </span>
-          <span>
               <b>Directory:</b> <a id="modal-file-directory-link" href="#"><span id="modal-file-directory"></span></a>
           </span>
           <span>
@@ -27,13 +24,12 @@
           <a class="btn btn-secondary" href="#" role="button" target="_blank" id="modal-file-preview">
               Preview
           </a>
-
           <form id="modal-file-download" method="get" action="">
               <button type="submit" class="btn btn-primary">Download</button>
           </form>
-          <button type="button" class="btn btn-danger" data-bs-target="#removeFileModal" data-bs-toggle="modal">
-              Remove
-          </button>
+          <a class="btn btn-success" href="#" role="button" target="_blank" id="modal-file-management">
+              Manage
+          </a>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>

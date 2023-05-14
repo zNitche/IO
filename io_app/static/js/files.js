@@ -5,7 +5,6 @@ function showFileInfoModal(modalID, filename, size, extension, uuid, upload_date
 
     document.getElementById("modal-file-name").innerHTML = filename;
 
-    document.getElementById("modal-file-uuid").innerHTML = uuid;
     document.getElementById("modal-file-size").innerHTML = size + "MB";
     document.getElementById("modal-file-extension").innerHTML = extension;
     document.getElementById("modal-file-date").innerHTML = upload_date;
@@ -14,10 +13,8 @@ function showFileInfoModal(modalID, filename, size, extension, uuid, upload_date
     document.getElementById("modal-file-directory-link").href = directory_url;
 
     document.getElementById("modal-file-download").action = `${management_url_base}/download/`;
-    document.getElementById("modal-file-remove").action = `${management_url_base}/remove/`;
     document.getElementById("modal-file-preview").href = `${management_url_base}/preview/`;
-
-    document.getElementById("modal-remove-file-name").innerHTML = filename;
+    document.getElementById("modal-file-management").href = `${management_url_base}/management/`;
 
     modal.show();
 }

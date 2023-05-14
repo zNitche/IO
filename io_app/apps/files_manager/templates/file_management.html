@@ -1,0 +1,42 @@
+{% extends "page_layout.html" %}
+{% load static %}
+{% block page_content %}
+    <!-- Remove Modal -->
+    {% include "components/modals/remove_file_modal.html" with file=file %}
+
+    <!-- Page content -->
+    <div class="page-content-wrapper mb-3">
+        <div class="content-wrapper">
+            <h3>{{file.name}}</h3>
+            <div class="file-details-wrapper">
+              <span>
+                <b>UUID:</b> {{file.uuid}}
+              </span>
+              <span>
+                  <b>Directory:</b> <a href="{{file.get_directory_url}}">{{file.get_directory_name}}</a>
+              </span>
+              <span>
+                  <b>Size:</b> {{file.get_file_size_in_mb}}MB
+              </span>
+              <span>
+                  <b>Extension:</b> {{file.extension}}
+              </span>
+              <span>
+                  <b>Upload date:</b> {{file.upload_date}}
+              </span>
+            </div>
+            <div class="file-details-controls-wrapper">
+              <a class="btn btn-secondary" href="{% url 'files_manager:preview_raw' file_uuid=file.uuid %}" role="button" target="_blank">
+                  Preview
+              </a>
+              <button type="button" class="btn btn-danger" data-bs-target="#removeFileModal" data-bs-toggle="modal">
+                Remove
+              </button>
+              <form method="get" action="{% url 'files_manager:download_file' file_uuid=file.uuid %}">
+                <button type="submit" class="btn btn-primary">Download</button>
+              </form>
+            </div>
+        </div>
+    </div>
+<script src="{% static 'js/files.js' %}"></script>
+{% endblock %}

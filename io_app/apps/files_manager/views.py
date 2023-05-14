@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
@@ -86,7 +86,7 @@ def upload_file(request):
 
 @login_required
 @require_http_methods(["GET"])
-def download(request, file_uuid):
+def download_file(request, file_uuid):
     file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
     file_path = os.path.join(settings.STORAGE_PATH, str(request.user.id), file.uuid)
 
@@ -95,13 +95,25 @@ def download(request, file_uuid):
 
 @login_required
 @require_http_methods(["POST"])
-def remove(request, file_uuid):
+def remove_file(request, file_uuid):
     file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
     file.delete()
 
     messages.add_message(request, messages.SUCCESS, MessagesConsts.FILE_REMOVED_SUCCESSFULLY)
 
-    return HttpResponseRedirect(request.POST.get("next", "/"))
+    return redirect("core:home")
+
+
+@login_required
+@require_http_methods(["GET"])
+def file_management(request, file_uuid):
+    file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
+
+    context = {
+        "file": file,
+    }
+
+    return render(request, "file_management.html", context)
 
 
 @login_required

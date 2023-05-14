@@ -12,10 +12,7 @@ function showDirectoryInfoModal(modalID, name, uuid, size, files_count, creation
     document.getElementById("modal-directory-date").innerHTML = creation_date;
 
     document.getElementById("modal-directory-download").action = "#";
-    document.getElementById("modal-directory-remove").action = "#";
     document.getElementById("modal-directory-preview").href = `/directories/${uuid}/`;
-
-    document.getElementById("modal-remove-directory-name").innerHTML = name;
 
     modal.show();
 }
