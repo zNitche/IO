@@ -17,4 +17,6 @@ urlpatterns = [
          name="directory_management"),
     path("directories/<str:directory_uuid>/remove/", directories_views.remove_directory,
          name="remove_directory"),
+    path("directories/<str:directory_uuid>/update_files/", directories_views.update_directory_files,
+         name="update_directory_files"),
 ]

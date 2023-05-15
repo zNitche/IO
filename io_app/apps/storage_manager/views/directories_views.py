@@ -36,8 +36,16 @@ def add_directory(request):
 def directory_management(request, directory_uuid):
     directory = get_object_or_404(models.Directory, uuid=directory_uuid, owner=request.user)
 
+    update_files_form = forms.UpdateDirectoryFilesForm(None)
+    directory_files = [(file.name, file.name) for file in directory.files.all()]
+    all_files = [(file.name, file.name) for file in request.user.files.all()]
+
+    update_files_form.fields["files"].choices = all_files
+    update_files_form.fields["files"].initial = [name[0] for name in directory_files]
+
     context = {
         "directory": directory,
+        "update_files_form": update_files_form,
     }
 
     return render(request, "directory_management.html", context)
@@ -52,3 +60,28 @@ def remove_directory(request, directory_uuid):
     messages.add_message(request, messages.SUCCESS, MessagesConsts.DIRECTORY_REMOVED_SUCCESSFULLY)
 
     return redirect("core:directories")
+
+
+@login_required
+@require_http_methods(["POST"])
+def update_directory_files(request, directory_uuid):
+    directory = get_object_or_404(models.Directory, uuid=directory_uuid, owner=request.user)
+
+    form = forms.UpdateDirectoryFilesForm(data=request.POST)
+    form.user = request.user
+    all_files = [(file.name, file.name) for file in request.user.files.all()]
+
+    form.fields["files"].choices = all_files
+
+    if form.is_valid():
+        files = request.POST.getlist("files")
+
+        files_models = [file for file in request.user.files.all() if file.name in files]
+
+        directory.files.set(files_models)
+        directory.save()
+
+        messages.add_message(request, messages.SUCCESS,
+                             MessagesConsts.UPDATED_DIRECTORY_FILES.format(files_count=len(files_models)))
+
+    return redirect("storage_manager:directory_management", directory_uuid=directory_uuid)

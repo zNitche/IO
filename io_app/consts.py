@@ -13,6 +13,8 @@ class MessagesConsts:
     DIRECTORY_DOESNT_EXIST = "Directory doesn't exist"
     DIRECTORY_ADDED = "Directory added successfully"
     DIRECTORY_CHANGED = "Directory changed"
+    FILE_DOESNT_EXIST = "File doesn't exist"
+    UPDATED_DIRECTORY_FILES = "Successfully updated {files_count} files"
 
 
 class PaginationConsts:

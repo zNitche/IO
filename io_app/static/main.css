@@ -347,6 +347,17 @@ body {
     padding: 0 10px;
 }
 
+.checkboxes-wrapper label {
+    display: flex;
+    gap: 0 10px;
+}
+
+.checkboxes-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0;
+}
+
 @media (max-width: 576px) {
 
 }

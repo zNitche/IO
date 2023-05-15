@@ -39,3 +39,22 @@ class ChangeDirectoryForm(forms.Form):
                 raise ValidationError(MessagesConsts.DIRECTORY_DOESNT_EXIST)
 
         return data
+
+
+class UpdateDirectoryFilesForm(forms.Form):
+    files = forms.MultipleChoiceField(label="", widget=forms.CheckboxSelectMultiple(attrs={
+        "class": "checkboxes-wrapper",
+    }))
+
+    template_name = "components/form.html"
+
+    def clean_files(self):
+        data = self.cleaned_data["files"]
+
+        for file_name in data:
+            file = models.File.objects.filter(owner=self.user, name=file_name).first()
+
+            if not file:
+                raise ValidationError(MessagesConsts.FILE_DOESNT_EXIST)
+
+        return data
