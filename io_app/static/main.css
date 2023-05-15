@@ -318,7 +318,7 @@ body {
     width: 100%;
 }
 
-.storage-usage-details[aria-expanded="true"] .expand-icon {
+.btn[aria-expanded="true"] .expand-icon {
   transform: rotate(180deg);
 }
 
