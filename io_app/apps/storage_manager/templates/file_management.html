@@ -29,6 +29,9 @@
               <a class="btn btn-secondary" href="{% url 'storage_manager:preview_raw' file_uuid=file.uuid %}" role="button" target="_blank">
                   Preview
               </a>
+              <a class="btn btn-success" href="{% url 'storage_manager:preview_raw' file_uuid=file.uuid %}" role="button" target="_blank">
+                  Change directory
+              </a>
               <button type="button" class="btn btn-danger" data-bs-target="#removeFileModal" data-bs-toggle="modal">
                   Remove
               </button>
@@ -38,6 +41,16 @@
                 </button>
               </form>
             </div>
+        </div>
+        <div class="content-wrapper">
+            <form method="POST" action="{% url 'storage_manager:change_directory' file_uuid=file.uuid %}" class="px-2">
+                {% csrf_token %}
+                {{ change_directory_form }}
+
+                <button class="accept-button btn login-button" type="submit">
+                    Change directory
+                </button>
+            </form>
         </div>
     </div>
 <script src="{% static 'js/files.js' %}"></script>

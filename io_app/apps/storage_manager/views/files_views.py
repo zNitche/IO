@@ -8,6 +8,7 @@ from django.contrib import messages
 from io_app.utils import files_utils, common_utils
 from io_app.apps.storage_manager import models
 from io_app.consts import MessagesConsts, MediaConsts
+from io_app.apps.storage_manager import forms
 import logging
 import os
 
@@ -114,8 +115,17 @@ def remove_file(request, file_uuid):
 def file_management(request, file_uuid):
     file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
 
+    change_directory_form = forms.ChangeDirectoryForm(None)
+
+    user_directories = [(directory.name, directory.name) for directory in request.user.directories.all()]
+    user_directories.append(("root", "root"))
+
+    change_directory_form.fields["directory_name"].choices = user_directories
+    change_directory_form.fields["directory_name"].initial = [file.directory.name] if file.directory else ["root"]
+
     context = {
         "file": file,
+        "change_directory_form": change_directory_form,
     }
 
     return render(request, "file_management.html", context)
@@ -132,3 +142,30 @@ def preview_raw(request, file_uuid):
 
     else:
         return common_utils.send_file(file_path, file.name, as_attachment=False)
+
+
+@login_required
+@require_http_methods(["POST"])
+def change_directory(request, file_uuid):
+    file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
+    form = forms.ChangeDirectoryForm(data=request.POST)
+    form.user = request.user
+
+    user_directories = [(directory.name, directory.name) for directory in request.user.directories.all()]
+    user_directories.append(("root", "root"))
+    form.fields["directory_name"].choices = user_directories
+
+    if form.is_valid():
+        directory_name = request.POST["directory_name"]
+
+        if directory_name != "root":
+            directory = models.Directory.objects.filter(name=directory_name, owner=request.user).first()
+        else:
+            directory = None
+
+        file.directory = directory
+        file.save()
+
+        messages.add_message(request, messages.SUCCESS, MessagesConsts.DIRECTORY_CHANGED)
+
+    return redirect("storage_manager:file_management", file_uuid=file_uuid)

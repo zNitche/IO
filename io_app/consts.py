@@ -10,7 +10,9 @@ class MessagesConsts:
     FILE_REMOVED_SUCCESSFULLY = "File removed successfully"
     DIRECTORY_REMOVED_SUCCESSFULLY = "Directory removed successfully"
     DIRECTORY_EXISTS = "Directory exists"
+    DIRECTORY_DOESNT_EXIST = "Directory doesn't exist"
     DIRECTORY_ADDED = "Directory added successfully"
+    DIRECTORY_CHANGED = "Directory changed"
 
 
 class PaginationConsts:

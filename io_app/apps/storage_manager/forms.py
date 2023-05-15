@@ -20,3 +20,22 @@ class AddDirectoryForm(forms.Form):
             raise ValidationError(MessagesConsts.DIRECTORY_EXISTS)
 
         return data
+
+
+class ChangeDirectoryForm(forms.Form):
+    directory_name = forms.ChoiceField(label="", widget=forms.Select(attrs={
+        "class": "form-select",
+    }))
+
+    template_name = "components/form.html"
+
+    def clean_directory_name(self):
+        data = self.cleaned_data["directory_name"]
+
+        if data != "root":
+            directory = models.Directory.objects.filter(owner=self.user, name=data).first()
+
+            if not directory:
+                raise ValidationError(MessagesConsts.DIRECTORY_DOESNT_EXIST)
+
+        return data
