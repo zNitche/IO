@@ -26,13 +26,13 @@
               </span>
             </div>
             <div class="file-details-controls-wrapper">
-              <a class="btn btn-secondary" href="{% url 'files_manager:preview_raw' file_uuid=file.uuid %}" role="button" target="_blank">
+              <a class="btn btn-secondary" href="{% url 'storage_manager:preview_raw' file_uuid=file.uuid %}" role="button" target="_blank">
                   Preview
               </a>
               <button type="button" class="btn btn-danger" data-bs-target="#removeFileModal" data-bs-toggle="modal">
                   Remove
               </button>
-              <form method="get" action="{% url 'files_manager:download_file' file_uuid=file.uuid %}">
+              <form method="get" action="{% url 'storage_manager:download_file' file_uuid=file.uuid %}">
                 <button type="submit" class="btn btn-primary">
                     Download
                 </button>

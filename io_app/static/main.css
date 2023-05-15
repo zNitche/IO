@@ -340,6 +340,13 @@ body {
     color: red;
 }
 
+.directory-controls-wrapper {
+    display: flex;
+    gap: 0 10px;
+    justify-content: flex-end;
+    padding: 0 10px;
+}
+
 @media (max-width: 576px) {
 
 }

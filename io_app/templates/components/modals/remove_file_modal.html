@@ -10,7 +10,7 @@
           Do you want to remove file ?
       </div>
       <div class="modal-footer border-0">
-          <form id="modal-file-remove" method="post" action="{% url 'files_manager:remove_file' file_uuid=file.uuid %}">
+          <form id="modal-file-remove" method="post" action="{% url 'storage_manager:remove_file' file_uuid=file.uuid %}">
               {% csrf_token %}
               <button type="submit" class="btn btn-danger">Remove</button>
           </form>

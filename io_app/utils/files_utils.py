@@ -21,9 +21,10 @@ def get_user_storage_size(user_id):
     user_files_path = os.path.join(settings.STORAGE_PATH, str(user_id))
     files_size = 0
 
-    for file in os.listdir(user_files_path):
-        file_path = os.path.join(user_files_path, file)
-        files_size += get_size_of_file(file_path)
+    if os.path.exists(user_files_path):
+        for file in os.listdir(user_files_path):
+            file_path = os.path.join(user_files_path, file)
+            files_size += get_size_of_file(file_path)
 
     return files_size
 

@@ -1,5 +1,5 @@
 function showFileInfoModal(modalID, filename, size, extension, uuid, upload_date, directory_name, directory_url) {
-    const management_url_base = `/files/${uuid}`;
+    const management_url_base = `/storage/files/${uuid}`;
 
     let modal = new bootstrap.Modal(document.getElementById(modalID));
 

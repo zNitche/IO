@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from io_app.consts import MessagesConsts
-from io_app.apps.files_manager import models
+from io_app.apps.storage_manager import models
 
 
 class AddDirectoryForm(forms.Form):

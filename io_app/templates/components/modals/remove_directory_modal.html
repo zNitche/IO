@@ -10,7 +10,7 @@
           Do you want to remove directory with all its files ?
       </div>
       <div class="modal-footer border-0">
-          <form id="modal-directory-remove" method="post" action="{% url 'files_manager:remove_directory' directory_uuid=directory.uuid %}">
+          <form id="modal-directory-remove" method="post" action="{% url 'storage_manager:remove_directory' directory_uuid=directory.uuid %}">
               {% csrf_token %}
               <button type="submit" class="btn btn-danger">Remove</button>
           </form>

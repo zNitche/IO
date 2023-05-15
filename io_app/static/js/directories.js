@@ -10,7 +10,7 @@ function showDirectoryInfoModal(modalID, name, uuid, size, files_count, creation
 
     document.getElementById("modal-directory-download").action = "#";
     document.getElementById("modal-directory-preview").href = `/directories/${uuid}/`;
-    document.getElementById("modal-directory-management").href = `/files/directories/${uuid}/management`;
+    document.getElementById("modal-directory-management").href = `/storage/directories/${uuid}/management`;
 
     modal.show();
 }

@@ -3,9 +3,9 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib import messages
-from io_app.apps.files_manager import models
+from io_app.apps.storage_manager import models
 from io_app.consts import MessagesConsts
-from io_app.apps.files_manager import forms
+from io_app.apps.storage_manager import forms
 import logging
 
 

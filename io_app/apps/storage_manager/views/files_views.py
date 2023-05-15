@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.conf import settings
 from django.contrib import messages
 from io_app.utils import files_utils, common_utils
-from io_app.apps.files_manager import models
+from io_app.apps.storage_manager import models
 from io_app.consts import MessagesConsts, MediaConsts
 import logging
 import os
@@ -19,7 +19,7 @@ logger = logging.getLogger(settings.LOGGER_NAME)
 @require_http_methods(["GET"])
 def upload(request):
     return render(request, "upload.html", {
-        "upload_url": reverse("files_manager:upload_file")
+        "upload_url": reverse("storage_manager:upload_file")
     })
 
 

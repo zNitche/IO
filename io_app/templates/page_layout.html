@@ -21,7 +21,7 @@
                 <div class="collapse navbar-collapse" id="mainNavbar">
                     <ul class="navbar-nav ms-auto">
                       <li class="nav-item">
-                        <a class="nav-item-link" href="{% url 'files_manager:upload' %}">
+                        <a class="nav-item-link" href="{% url 'storage_manager:upload' %}">
                             <img src="{% static 'icons/file_upload_icon.svg' %}">
                             <span class="nav-item-link-text">Upload File</span>
                         </a>
@@ -34,7 +34,7 @@
                           <ul class="dropdown-menu" aria-labelledby="navbarFilesDropdown">
                             <li><a class="dropdown-item" href="{% url 'core:home' %}">My Files</a></li>
                             <li><a class="dropdown-item" href="{% url 'core:directories' %}">My Directories</a></li>
-                            <li><a class="dropdown-item" href="{% url 'files_manager:add_directory' %}">Create Directory</a></li>
+                            <li><a class="dropdown-item" href="{% url 'storage_manager:add_directory' %}">Create Directory</a></li>
                           </ul>
                       </li>
                       <li class="nav-item">

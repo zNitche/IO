@@ -20,7 +20,7 @@ from django.conf import settings
 urlpatterns = [
     path("", include("io_app.apps.core.urls")),
     path("auth/", include("io_app.apps.authenticate.urls")),
-    path("files/", include("io_app.apps.files_manager.urls")),
+    path("storage/", include("io_app.apps.storage_manager.urls")),
     path("api/", include("io_app.apps.api.urls")),
 ]
 
