@@ -38,9 +38,9 @@ def directory_management(request, directory_uuid):
 
     update_files_form = forms.UpdateDirectoryFilesForm(None)
     directory_files = [(file.name, file.name) for file in directory.files.all()]
-    all_files = [(file.name, file.name) for file in request.user.files.all()]
+    all_files = [(file.name, file.name) for file in request.user.files.filter(directory=None).all()]
 
-    update_files_form.fields["files"].choices = all_files
+    update_files_form.fields["files"].choices = directory_files + all_files
     update_files_form.fields["files"].initial = [name[0] for name in directory_files]
 
     context = {
@@ -69,9 +69,11 @@ def update_directory_files(request, directory_uuid):
 
     form = forms.UpdateDirectoryFilesForm(data=request.POST)
     form.user = request.user
-    all_files = [(file.name, file.name) for file in request.user.files.all()]
 
-    form.fields["files"].choices = all_files
+    directory_files = [(file.name, file.name) for file in directory.files.all()]
+    all_files = [(file.name, file.name) for file in request.user.files.filter(directory=None).all()]
+
+    form.fields["files"].choices = directory_files + all_files
 
     if form.is_valid():
         files = request.POST.getlist("files")
