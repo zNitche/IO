@@ -31,5 +31,21 @@ class PaginationConsts:
 class MediaConsts:
     BYTES_IN_MB = 1048576
 
+    COMMON_IMAGE_EXTENSIONS = ["jpg", "jpeg", "png"]
     COMMON_VIDEO_EXTENSIONS = ["webm", "mp4"]
     COMMON_AUDIO_EXTENSIONS = ["aac", "mp3", "ogg"]
+
+    ICONS_FOR_EXTENSIONS = [
+        {
+            "extensions": COMMON_IMAGE_EXTENSIONS,
+            "icon": "image_file_icon.svg"
+        },
+        {
+            "extensions": COMMON_VIDEO_EXTENSIONS,
+            "icon": "video_file_icon.svg"
+        },
+        {
+            "extensions": COMMON_AUDIO_EXTENSIONS,
+            "icon": "audio_file_icon.svg"
+        },
+    ]

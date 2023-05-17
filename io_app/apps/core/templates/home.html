@@ -1,6 +1,8 @@
 {% extends "page_layout.html" %}
+{% load core_tags %}
 {% load static %}
 {% block page_content %}
+
     <!-- Info Modal -->
     {% include "components/modals/info_file_modal.html" %}
 
@@ -34,7 +36,7 @@
                              onclick="showFileInfoModal('fileInfoModal', '{{file.name}}', '{{file.get_file_size_in_mb}}',
                               '{{file.extension}}', '{{file.uuid}}', '{{file.upload_date|date:'d-m-Y G:i'}}', '{{file.get_directory_name}}',
                               '{{ file.get_directory_url }}');">
-                            <img src="{% static 'icons/file_icon.svg' %}">
+                            <img src="{% get_icon_for_file file %}">
                             <span>{{ file.name }}</span>
                         </div>
                     {% endfor %}
