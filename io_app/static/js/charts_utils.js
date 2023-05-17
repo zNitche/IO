@@ -28,6 +28,9 @@ function createDoughnutGraph(graphId, data, displayLegend=false) {
         plugins: {
             legend: legend
         },
+        animation: {
+            duration: 0
+        }
       },
     };
 

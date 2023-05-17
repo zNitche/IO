@@ -95,8 +95,8 @@ function getDatasetForStorageUsageByFiletypeData(storageUsageData) {
         {
           data: data,
           borderColor: "#223767",
-          backgroundColor: ['#011f4b', '#03396c', '#005b96', '#6497b1', '#b3cde0', '#251e3e',
-           '4a4e4d', '0e9aa7', '2a4d69', '4b86b4'],
+          backgroundColor: ['#fe7a88', '#f44d43', '#f5b015', '#79992c', '#9a64c6', '#1d9ac6',
+           '#db7b00', '#0e9aa7', '#2a4d69', '#4b86b4'],
         }
       ]
     };
