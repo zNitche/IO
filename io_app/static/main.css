@@ -17,6 +17,7 @@ body {
     background-color: #223767;
     padding: 30px;
     border-radius: 10px;
+    width: unset;
 }
 
 .form-container {
@@ -322,6 +323,20 @@ body {
   transform: rotate(180deg);
 }
 
+.collapsible-primary-btn {
+    background-color: #033b8d !important;
+    color: #fff !important;
+}
+
+.shared-to-user-container {
+    display: flex;
+    align-items: center;
+}
+
+.remove-shared-user-btn {
+    margin-left: auto;
+}
+
 .file-details-wrapper {
     display: flex;
     flex-direction: column;
@@ -398,6 +413,10 @@ body {
     .files-container {
         flex-direction: column !important;
         gap: 10px 0 !important;
+    }
+
+    .centered-container {
+        width: 95% !important;
     }
 }
 

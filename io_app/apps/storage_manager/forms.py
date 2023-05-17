@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
 from io_app.consts import MessagesConsts
 from io_app.apps.storage_manager import models
 
@@ -56,5 +57,26 @@ class UpdateDirectoryFilesForm(forms.Form):
 
             if not file:
                 raise ValidationError(MessagesConsts.FILE_DOESNT_EXIST)
+
+        return data
+
+
+class ShareDirectoryToUserForm(forms.Form):
+    username = forms.CharField(label="", max_length=25, widget=forms.TextInput(attrs={
+        "class": "form-control",
+        "placeholder": "username"
+    }))
+
+    template_name = "components/form.html"
+
+    def clean_username(self):
+        data = self.cleaned_data["username"]
+        user = get_user_model().objects.filter(username=data).first()
+
+        if not user:
+            raise ValidationError(MessagesConsts.USER_DOESNT_EXIST)
+
+        if user and user == self.user:
+            raise ValidationError(MessagesConsts.USER_DOESNT_EXIST)
 
         return data

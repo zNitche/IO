@@ -15,6 +15,13 @@ class MessagesConsts:
     DIRECTORY_CHANGED = "Directory changed"
     FILE_DOESNT_EXIST = "File doesn't exist"
     UPDATED_DIRECTORY_FILES = "Successfully updated {files_count} files"
+    USER_DOESNT_EXIST = "User doesn't exist"
+    CANT_SHARE_DIRECTORY_TO_SELF = "Can't share directory to self"
+    SHARED_TO_USER = "Shared {obj_name} to {username}"
+    ERROR_WHILE_SHARING_DIRECTORY_TO_USER = "Error while sharing directory to user"
+    DIRECTORY_ALREADY_SHARED_TO_USER = "Directory already shared to user"
+    REMOVE_SHARED_TO_USER = "Removed {obj_name} sharing to {username}"
+    DIRECTORY_NOT_SHARED_TO_USER = "Directory not shared to user"
 
 
 class PaginationConsts:

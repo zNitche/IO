@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="content-wrapper">
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+            <button class="btn collapsible-primary-btn" type="button" data-bs-toggle="collapse"
                     data-bs-target="#update-directory-files" aria-expanded="false" aria-controls="update-directory-files">
                 Update Files
                 <img class="expand-icon" src="{% static 'icons/expand_icon.svg' %}">
@@ -54,6 +54,40 @@
                   </form>
               </div>
             </div>
+        </div>
+        <div class="content-wrapper">
+            <form method="POST" action="{% url 'storage_manager:share_directory_to_user' directory_uuid=directory.uuid %}" class="px-2 mb-3">
+                {% csrf_token %}
+                {{ share_to_user_form }}
+
+                <button class="accept-button btn login-button" type="submit">
+                    Add
+                </button>
+            </form>
+            {% if directory.shared_to_users.all|length > 0 %}
+                <button class="btn collapsible-primary-btn" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#shared-to-users" aria-expanded="false" aria-controls="shared-to-users">
+                    Shared to users
+                    <img class="expand-icon" src="{% static 'icons/expand_icon.svg' %}">
+                </button>
+                <div class="collapse" id="shared-to-users">
+                  <div class="content-wrapper-collapse-content">
+                      {% for user in directory.shared_to_users.all %}
+                        <div class="shared-to-user-container">
+                            <form class="w-100 d-flex" action="{% url 'storage_manager:remove_directory_from_shared' directory_uuid=directory.uuid %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="username" value="{{ user.username }}">
+
+                                <span>{{ user.username }}</span>
+                                <button class="btn remove-shared-user-btn" type="submit">
+                                    <img class="expand-icon" src="{% static 'icons/close_icon.svg' %}">
+                                </button>
+                            </form>
+                        </div>
+                      {% endfor %}
+                  </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 <script src="{% static 'js/directories.js' %}"></script>

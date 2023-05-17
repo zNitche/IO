@@ -3,6 +3,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from io_app.apps.storage_manager import models
 from io_app.consts import MessagesConsts
 from io_app.apps.storage_manager import forms
@@ -36,16 +37,20 @@ def add_directory(request):
 def directory_management(request, directory_uuid):
     directory = get_object_or_404(models.Directory, uuid=directory_uuid, owner=request.user)
 
-    update_files_form = forms.UpdateDirectoryFilesForm(None)
+    update_files_form = forms.UpdateDirectoryFilesForm()
     directory_files = [(file.name, file.name) for file in directory.files.all()]
     all_files = [(file.name, file.name) for file in request.user.files.filter(directory=None).all()]
 
     update_files_form.fields["files"].choices = directory_files + all_files
     update_files_form.fields["files"].initial = [name[0] for name in directory_files]
 
+    share_to_user_form = forms.ShareDirectoryToUserForm()
+    share_to_user_form.user = request.user
+
     context = {
         "directory": directory,
         "update_files_form": update_files_form,
+        "share_to_user_form": share_to_user_form,
     }
 
     return render(request, "directory_management.html", context)
@@ -85,5 +90,57 @@ def update_directory_files(request, directory_uuid):
 
         messages.add_message(request, messages.SUCCESS,
                              MessagesConsts.UPDATED_DIRECTORY_FILES.format(files_count=len(files_models)))
+
+    return redirect("storage_manager:directory_management", directory_uuid=directory_uuid)
+
+
+@login_required
+@require_http_methods(["POST"])
+def share_directory_to_user(request, directory_uuid):
+    directory = get_object_or_404(models.Directory, uuid=directory_uuid, owner=request.user)
+
+    form = forms.ShareDirectoryToUserForm(data=request.POST)
+    form.user = request.user
+
+    if form.is_valid():
+        username = request.POST["username"]
+        user = get_user_model().objects.filter(username=username).first()
+
+        if user not in directory.shared_to_users.all():
+            user.shared_directories.add(directory)
+            user.save()
+
+            messages.add_message(request, messages.SUCCESS, MessagesConsts.SHARED_TO_USER.format(
+                obj_name=directory.name, username=username))
+
+        else:
+            messages.add_message(request, messages.ERROR, MessagesConsts.DIRECTORY_ALREADY_SHARED_TO_USER)
+
+    else:
+        messages.add_message(request, messages.ERROR, MessagesConsts.ERROR_WHILE_SHARING_DIRECTORY_TO_USER)
+
+    return redirect("storage_manager:directory_management", directory_uuid=directory_uuid)
+
+
+@login_required
+@require_http_methods(["POST"])
+def remove_directory_from_shared(request, directory_uuid):
+    directory = get_object_or_404(models.Directory, uuid=directory_uuid, owner=request.user)
+
+    username = request.POST["username"]
+    user = get_user_model().objects.filter(username=username).first()
+
+    if user:
+        if user in directory.shared_to_users.all():
+            user.shared_directories.remove(directory)
+            user.save()
+
+            messages.add_message(request, messages.SUCCESS, MessagesConsts.REMOVE_SHARED_TO_USER.format(
+                obj_name=directory.name, username=user.username))
+
+        else:
+            messages.add_message(request, messages.ERROR, MessagesConsts.DIRECTORY_NOT_SHARED_TO_USER)
+    else:
+        messages.add_message(request, messages.ERROR, MessagesConsts.USER_DOESNT_EXIST)
 
     return redirect("storage_manager:directory_management", directory_uuid=directory_uuid)

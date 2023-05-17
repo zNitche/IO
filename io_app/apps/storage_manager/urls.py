@@ -19,4 +19,8 @@ urlpatterns = [
          name="remove_directory"),
     path("directories/<str:directory_uuid>/update_files/", directories_views.update_directory_files,
          name="update_directory_files"),
+    path("directories/<str:directory_uuid>/share_directory_to_user/", directories_views.share_directory_to_user,
+         name="share_directory_to_user"),
+    path("directories/<str:directory_uuid>/remove_directory_from_shared/", directories_views.remove_directory_from_shared,
+         name="remove_directory_from_shared"),
 ]

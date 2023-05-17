@@ -13,6 +13,7 @@ class Directory(models.Model):
     creation_date = models.DateTimeField(unique=False, null=False, default=datetime.utcnow)
 
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="directories")
+    shared_to_users = models.ManyToManyField(get_user_model(), related_name="shared_directories", blank=True, null=True)
 
     def __str__(self):
         return self.uuid
@@ -53,3 +54,11 @@ class File(models.Model):
             if self.get_directory_name() != "root" else resolve_url("core:home")
 
         return url
+
+    def check_if_shared_to_user(self, user):
+        shared = False
+
+        if self.directory and user in self.directory.shared_to_users.all():
+            shared = True
+
+        return shared

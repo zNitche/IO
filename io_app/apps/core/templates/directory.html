@@ -9,12 +9,14 @@
         <!-- My Files -->
         <div class="content-wrapper">
             <h3>
-                {{directory.name}}/
+                {{directory.owner.username}}/{{directory.name}}
             </h3>
             <div class="mb-3 directory-controls-wrapper">
-                <a class="btn btn-success" href="{% url 'storage_manager:directory_management' directory_uuid=directory.uuid %}" role="button">
-                  Manage
-                </a>
+                {% if directory.owner == request.user %}
+                    <a class="btn btn-success" href="{% url 'storage_manager:directory_management' directory_uuid=directory.uuid %}" role="button">
+                      Manage
+                    </a>
+                {% endif %}
                 <a class="btn btn-primary" href="#" role="button">
                   Download
                 </a>

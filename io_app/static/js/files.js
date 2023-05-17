@@ -14,7 +14,11 @@ function showFileInfoModal(modalID, filename, size, extension, uuid, upload_date
 
     document.getElementById("modal-file-download").action = `${management_url_base}/download/`;
     document.getElementById("modal-file-preview").href = `${management_url_base}/preview/`;
-    document.getElementById("modal-file-management").href = `${management_url_base}/management/`;
+
+    const managementButton = document.getElementById("modal-file-management");
+    if (managementButton) {
+        managementButton.href = `${management_url_base}/management/`;
+    }
 
     modal.show();
 }
@@ -27,22 +31,24 @@ async function initStorageUsageStats() {
     createDoughnutGraph("storage-usage", getDatasetForStorageUsageData(storageUsageData));
     document.getElementById("storage-used-space-value").innerHTML = storageUsageData.used_space + "%";
 
-    createDoughnutGraph("storage-usage-by-type", getDatasetForStorageUsageByFiletypeData(storageUsageByFiletypeData));
+    if (storageUsageData.used_space > 0) {
+        createDoughnutGraph("storage-usage-by-type", getDatasetForStorageUsageByFiletypeData(storageUsageByFiletypeData));
+    }
 
     setStorageUsageDetails(storageUsageData);
     setStorageUsageByTypeDetails(storageUsageByFiletypeData);
 
-    document.getElementById("storage-usage-data").classList.remove("d-none")
-    document.getElementById("storage-usage-data-wrapper").classList.remove("content-wrapper-loading")
-    document.getElementById("storage-usage-data-wrapper").classList.add("no-bottom-padding")
+    document.getElementById("storage-usage-data").classList.remove("d-none");
+    document.getElementById("storage-usage-data-wrapper").classList.remove("content-wrapper-loading");
+    document.getElementById("storage-usage-data-wrapper").classList.add("no-bottom-padding");
 
-    document.getElementById("storage-usage-data-spinner").classList.add("d-none")
+    document.getElementById("storage-usage-data-spinner").classList.add("d-none");
 }
 
 
 function setStorageUsageDetails(storageUsageData) {
-    document.getElementById("storage-usage-details-used").innerHTML = storageUsageData.free_space + "MB";
-    document.getElementById("storage-usage-details-free").innerHTML = storageUsageData.used_space + "MB";
+    document.getElementById("storage-usage-details-used").innerHTML = storageUsageData.used_space + "MB";
+    document.getElementById("storage-usage-details-free").innerHTML = storageUsageData.free_space + "MB";
 }
 
 

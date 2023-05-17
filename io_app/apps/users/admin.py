@@ -16,6 +16,9 @@ class CustomUserAdmin(UserAdmin):
         ("Details", {
             "fields": ("username", "password", "date_joined")
         }),
+        ("Storage", {
+            "fields": ("private_storage_space",)
+        }),
         ("Permissions", {
             "fields": ("is_staff", "is_active", "groups", "user_permissions")
         }),

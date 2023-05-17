@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.conf import settings
 from django.contrib import messages
 from io_app.utils import files_utils, common_utils
@@ -93,10 +93,15 @@ def upload_file(request):
 @login_required
 @require_http_methods(["GET"])
 def download_file(request, file_uuid):
-    file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
-    file_path = os.path.join(settings.STORAGE_PATH, str(request.user.id), file.uuid)
+    file = get_object_or_404(models.File, uuid=file_uuid)
 
-    return common_utils.send_file(file_path, file.name)
+    if file.owner == request.user or file.check_if_shared_to_user(request.user):
+        file_path = os.path.join(settings.STORAGE_PATH, str(file.owner.id), file.uuid)
+
+        return common_utils.send_file(file_path, file.name)
+
+    else:
+        raise Http404
 
 
 @login_required
@@ -134,14 +139,18 @@ def file_management(request, file_uuid):
 @login_required
 @require_http_methods(["GET"])
 def preview_raw(request, file_uuid):
-    file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
-    file_path = os.path.join(settings.STORAGE_PATH, str(request.user.id), file.uuid)
+    file = get_object_or_404(models.File, uuid=file_uuid)
 
-    if file.extension in MediaConsts.COMMON_AUDIO_EXTENSIONS or file.extension in MediaConsts.COMMON_VIDEO_EXTENSIONS:
-        return common_utils.serve_media_file(file_path, file.name)
+    if file.owner == request.user or file.check_if_shared_to_user(request.user):
+        file_path = os.path.join(settings.STORAGE_PATH, str(file.owner.id), file.uuid)
 
+        if file.extension in MediaConsts.COMMON_AUDIO_EXTENSIONS or file.extension in MediaConsts.COMMON_VIDEO_EXTENSIONS:
+            return common_utils.serve_media_file(file_path, file.name)
+
+        else:
+            return common_utils.send_file(file_path, file.name, as_attachment=False)
     else:
-        return common_utils.send_file(file_path, file.name, as_attachment=False)
+        raise Http404
 
 
 @login_required
