@@ -153,6 +153,12 @@ LOGGING = {
             "formatter": "verbose",
             "filename": os.path.join(PROJECT_DIR, "logs", "log.log"),
         },
+        "celery_file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "formatter": "simple",
+            "filename": os.path.join(PROJECT_DIR, "logs", "celery_log.log"),
+        },
     },
     "loggers": {
         "main": {
@@ -164,11 +170,16 @@ LOGGING = {
             "propagate": True,
             "level": "DEBUG",
         },
+        "celery_logger": {
+            "handlers": ["celery_file"],
+            "propagate": False,
+            "level": "DEBUG",
+        },
     },
 }
 
 LOGGER_NAME = "dev" if DEBUG else "main"
-
+CELERY_LOGGER_NAME = "celery_logger"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -204,3 +215,12 @@ LOGIN_URL = "authenticate:login"
 # Files uploads config
 FILES_UPLOAD_CHUNK_LENGTH = int(os.getenv("FILES_UPLOAD_CHUNK_LENGTH", MediaConsts.BYTES_IN_MB * 4))
 STORAGE_PATH = os.path.join(PROJECT_DIR, "storage")
+
+
+# Celery
+if DEBUG:
+    CELERY_BROKER_URL = "redis://127.0.0.1:6000/2"
+    CELERY_RESULT_BACKEND = "redis://127.0.0.1:6000/2"
+else:
+    CELERY_BROKER_URL = "redis://redis:6000/2"
+    CELERY_RESULT_BACKEND = "redis://redis:6000/2"

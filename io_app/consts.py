@@ -22,6 +22,9 @@ class MessagesConsts:
     DIRECTORY_ALREADY_SHARED_TO_USER = "Directory already shared to user"
     REMOVE_SHARED_TO_USER = "Removed {obj_name} sharing to {username}"
     DIRECTORY_NOT_SHARED_TO_USER = "Directory not shared to user"
+    PROCESS_DOESNT_EXIST = "Process doesn't exist"
+    PROCESS_STARTED_SUCCESSFULLY = "Process started successfully"
+    FILE_IS_NOT_ARCHIVE = "File is not archive"
 
 
 class PaginationConsts:
@@ -34,6 +37,8 @@ class MediaConsts:
     COMMON_IMAGE_EXTENSIONS = ["jpg", "jpeg", "png"]
     COMMON_VIDEO_EXTENSIONS = ["webm", "mp4"]
     COMMON_AUDIO_EXTENSIONS = ["aac", "mp3", "ogg"]
+
+    COMMON_ARCHIVES_EXTENSIONS = ["zip"]
 
     ICONS_FOR_EXTENSIONS = [
         {
@@ -49,3 +54,18 @@ class MediaConsts:
             "icon": "audio_file_icon.svg"
         },
     ]
+
+
+class ProcessesConsts:
+    PID = "pid"
+    PROCESS_NAME = "process_name"
+    PROGRESS = "progress"
+    PROCESS_TIMESTAMP = "timestamp"
+    OWNER_ID = "owner_id"
+    FILENAME = "filename"
+
+    ARCHIVE_EXTRACTION_PROCESS_NAME = "ArchiveExtraction"
+
+    PROCESSES_FOR_FILES_NAMES = {
+        ARCHIVE_EXTRACTION_PROCESS_NAME: "Archive Extraction",
+    }
