@@ -58,6 +58,26 @@ class ArchiveExtraction(UserTaskBase):
 
                 self.calc_progres(file_id, archive_files_count)
 
+    def add_files(self, files_path, output_path):
+        new_dir_model = models.Directory(owner_id=self.owner_id, name=self.timestamp)
+        new_dir_model.save()
+
+        for file in os.listdir(output_path):
+            file_path = os.path.join(output_path, file)
+
+            file_model = models.File(owner_id=self.owner_id,
+                                     name=file,
+                                     extension=file.split(".")[-1],
+                                     directory=new_dir_model,
+                                     size=files_utils.get_size_of_file(file_path),
+                                     uuid=files_utils.generate_uuid())
+            file_model.save()
+
+            shutil.move(file_path, os.path.join(files_path, file_model.uuid))
+
+            new_dir_model.files.add(file_model)
+            new_dir_model.save()
+
     def mainloop(self):
         self.update_process_data()
 
@@ -69,25 +89,7 @@ class ArchiveExtraction(UserTaskBase):
                 output_path = os.path.join(tempfile.gettempdir(), tmp_dir_name)
 
                 self.extract_zip(archive_path, output_path)
-
-                new_dir_model = models.Directory(owner_id=self.owner_id, name=self.timestamp)
-                new_dir_model.save()
-
-                for file in os.listdir(output_path):
-                    file_path = os.path.join(output_path, file)
-
-                    file_model = models.File(owner_id=self.owner_id,
-                                             name=file,
-                                             extension=file.split(".")[-1],
-                                             directory=new_dir_model,
-                                             size=files_utils.get_size_of_file(file_path),
-                                             uuid=files_utils.generate_uuid())
-                    file_model.save()
-
-                    shutil.move(file_path, os.path.join(files_path, file_model.uuid))
-
-                    new_dir_model.files.add(file_model)
-                    new_dir_model.save()
+                self.add_files(files_path, output_path)
 
         except Exception as e:
             self.logger.error(f"[{self.get_process_name()}] - {str(e)}")
