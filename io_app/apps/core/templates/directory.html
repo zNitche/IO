@@ -11,6 +11,17 @@
             <h3>
                 {{directory.owner.username}}/{{directory.name}}
             </h3>
+            <div class="file-details-wrapper">
+              <span>
+                  <b>Size:</b> {{directory.get_size_in_mb}}MB</span>
+              </span>
+              <span>
+                  <b>Files:</b> {{directory.get_files_count}}</span>
+              </span>
+              <span>
+                  <b>Creation date:</b> {{directory.creation_date|date:'d-m-Y G:i'}}</span>
+              </span>
+            </div>
             <div class="mb-3 directory-controls-wrapper">
                 {% if directory.owner == request.user %}
                     <a class="btn btn-success" href="{% url 'storage_manager:directory_management' directory_uuid=directory.uuid %}" role="button">

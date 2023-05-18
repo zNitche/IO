@@ -21,6 +21,9 @@
               <span>
                   <b>Creation date:</b> {{directory.creation_date|date:'d-m-Y G:i'}}</span>
               </span>
+              <span>
+                  <b>Shared to users:</b> {{directory.shared_to_users|length}}</span>
+              </span>
             </div>
             <div class="file-details-controls-wrapper">
               <a class="btn btn-secondary" href="{% url 'core:directory_content' directory_uuid=directory.uuid %}" role="button" target="_blank">
@@ -90,5 +93,4 @@
             {% endif %}
         </div>
     </div>
-<script src="{% static 'js/directories.js' %}"></script>
 {% endblock %}

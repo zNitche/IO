@@ -1,9 +1,6 @@
 {% extends "page_layout.html" %}
 {% load static %}
 {% block page_content %}
-    <!-- Info Directory Modal -->
-    {% include "components/modals/info_directory_modal.html" %}
-
     <!-- Page content -->
     <div class="page-content-wrapper mb-3">
         <!-- My Directories -->
@@ -18,13 +15,12 @@
             </div>
             <div class="files-container my-files-container">
                 {% for directory in directories_page %}
-                    <div class="file-wrapper"
-                         onclick="showDirectoryInfoModal('directoryInfoModal', '{{directory.name}}', '{{directory.uuid}}',
-                          '{{directory.get_size_in_mb}}', '{{directory.get_files_count}}',
-                          '{{directory.creation_date|date:'d-m-Y G:i'}}')">
-                        <img src="{% static 'icons/folder_icon.svg' %}">
-                        <span>{{ directory.name }}</span>
-                    </div>
+                    <a class="file-wrapper-click" href="{% url 'core:directory_content' directory_uuid=directory.uuid %}">
+                        <div class="file-wrapper">
+                            <img src="{% static 'icons/folder_icon.svg' %}">
+                            <span>{{ directory.name }}</span>
+                        </div>
+                    </a>
                 {% endfor %}
             </div>
             {% if directories_page.has_next or directories_page.has_previous %}
@@ -44,5 +40,4 @@
             {% endif %}
         </div>
     </div>
-<script src="{% static 'js/directories.js' %}"></script>
 {% endblock %}

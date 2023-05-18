@@ -228,8 +228,16 @@ body {
     cursor: pointer;
 }
 
+.file-wrapper {
+    color: #fff;
+}
+
 .file-wrapper:hover {
     background-color: #2a4991;
+}
+
+.file-wrapper-click {
+    text-decoration: none;
 }
 
 .recent-file {
