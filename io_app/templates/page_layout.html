@@ -27,7 +27,17 @@
                         </a>
                       </li>
                       <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarFilesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <a class="nav-link dropdown-toggle" id="navbarProcessesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{% static 'icons/processes_icon.svg' %}">
+                            <span class="nav-item-link-text">Processes</span>
+                          </a>
+                          <ul class="dropdown-menu" aria-labelledby="navbarProcessesDropdown">
+                            <li><a class="dropdown-item" href="{% url 'core:processes' %}">Running Processes</a></li>
+                            <li><a class="dropdown-item" href="{% url 'core:start_file_process' %}">Start File Process</a></li>
+                          </ul>
+                      </li>
+                      <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" id="navbarFilesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="{% static 'icons/files_icon.svg' %}">
                             <span class="nav-item-link-text">Files</span>
                           </a>

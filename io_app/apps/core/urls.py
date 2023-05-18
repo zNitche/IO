@@ -12,4 +12,6 @@ urlpatterns = [
     path("directories/<str:directory_uuid>/", views.directory_content, name="directory_content"),
     path("directories/<str:directory_uuid>/<str:page_id>/", views.directory_content, name="directory_content"),
     path("shared_directories/", views.shared_directories, name="shared_directories"),
+    path("processes/", views.processes, name="processes"),
+    path("processes/file_process/start/", views.start_file_process, name="start_file_process"),
 ]

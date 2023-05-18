@@ -1,10 +1,13 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from io_app.consts import PaginationConsts
+from django.contrib import messages
+from io_app.consts import PaginationConsts, MessagesConsts
 from io_app.apps.storage_manager import models
+from io_app.apps.core import forms
+from io_app.utils import processes_utils
 
 
 @login_required
@@ -81,3 +84,31 @@ def shared_directories(request, page_id=1):
         "search_dir_name": search_dir_name,
         "shared_view": True,
     })
+
+
+@login_required
+@require_http_methods(["GET"])
+def processes(request):
+    return render(request, "processes.html", {})
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def start_file_process(request):
+    form = forms.StartFileProcessForm(data=request.POST or None)
+    form.user = request.user
+
+    files = models.File.objects.filter(owner=request.user, directory=None).all()
+    form.fields["file_name"].choices = [(file.name, file.name) for file in files]
+
+    if request.method == "POST":
+        if form.is_valid():
+            file_name = request.POST["file_name"]
+            process_type_name = request.POST["process_type_name"]
+
+            processes_utils.start_file_process_for_user(request.user.id, process_type_name, file_name)
+            messages.add_message(request, messages.SUCCESS, MessagesConsts.PROCESS_STARTED_SUCCESSFULLY)
+
+            return redirect("core:processes")
+
+    return render(request, "start_process.html", {"form": form})
