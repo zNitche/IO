@@ -37,6 +37,7 @@ class MediaConsts:
     COMMON_IMAGE_EXTENSIONS = ["jpg", "jpeg", "png"]
     COMMON_VIDEO_EXTENSIONS = ["webm", "mp4"]
     COMMON_AUDIO_EXTENSIONS = ["aac", "mp3", "ogg"]
+    COMMON_ARCHIVE_EXTENSIONS = ["zip"]
 
     ICONS_FOR_EXTENSIONS = [
         {
@@ -61,9 +62,3 @@ class ProcessesConsts:
     PROCESS_TIMESTAMP = "timestamp"
     OWNER_ID = "owner_id"
     FILE_UUID = "file_uuid"
-
-    ARCHIVE_EXTRACTION_PROCESS_NAME = "ArchiveExtraction"
-
-    PROCESSES_FOR_FILES_NAMES = {
-        ARCHIVE_EXTRACTION_PROCESS_NAME: "Archive Extraction",
-    }

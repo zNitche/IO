@@ -94,8 +94,8 @@ def processes(request):
 
 @login_required
 @require_http_methods(["GET", "POST"])
-def start_file_process(request):
-    form = forms.StartFileProcessForm(data=request.POST or None)
+def start_archive_extraction_process(request):
+    form = forms.StartArchiveExtractionProcessForm(data=request.POST or None)
     form.user = request.user
 
     files = models.File.objects.filter(owner=request.user, directory=None).all()
@@ -104,11 +104,10 @@ def start_file_process(request):
     if request.method == "POST":
         if form.is_valid():
             file_name = request.POST["file_name"]
-            process_type_name = request.POST["process_type_name"]
 
             file = models.File.objects.filter(owner=request.user, name=file_name).first()
 
-            processes_utils.start_file_process_for_user(request.user.id, process_type_name, file.uuid)
+            processes_utils.start_file_process_for_user(request.user.id, "ArchiveExtraction", file.uuid)
             messages.add_message(request, messages.SUCCESS, MessagesConsts.PROCESS_STARTED_SUCCESSFULLY)
 
             return redirect("core:processes")

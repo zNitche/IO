@@ -33,7 +33,12 @@
                           </a>
                           <ul class="dropdown-menu" aria-labelledby="navbarProcessesDropdown">
                             <li><a class="dropdown-item" href="{% url 'core:processes' %}">Running Processes</a></li>
-                            <li><a class="dropdown-item" href="{% url 'core:start_file_process' %}">Start File Process</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'core:start_archive_extraction_process' %}">
+                                    Start Archive Extraction Process
+                                </a>
+                            </li>
                           </ul>
                       </li>
                       <li class="nav-item dropdown">
