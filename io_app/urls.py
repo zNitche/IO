@@ -28,6 +28,10 @@ urlpatterns = [
 if settings.DEBUG:
     from django.contrib import admin
 
+    admin.site.site_header = "IO admin"
+    admin.site.index_title = "IO admin"
+    admin.site.site_title = "IO admin"
+
     urlpatterns.append(path('admin/', admin.site.urls))
 
 
