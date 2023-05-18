@@ -13,7 +13,7 @@ class Directory(models.Model):
     creation_date = models.DateTimeField(unique=False, null=False, default=datetime.utcnow)
 
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="directories")
-    shared_to_users = models.ManyToManyField(get_user_model(), related_name="shared_directories", blank=True, null=True)
+    shared_to_users = models.ManyToManyField(get_user_model(), related_name="shared_directories", blank=True)
 
     def __str__(self):
         return self.uuid
