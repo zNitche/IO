@@ -9,7 +9,7 @@ register = template.Library()
 @register.simple_tag(takes_context=True)
 def get_icon_for_file(context, file):
     icons_prefix = "icons/"
-    icon = icons_prefix + "file_icon.svg"
+    icon = "file_icon.svg"
 
     for ext_set in MediaConsts.ICONS_FOR_EXTENSIONS:
         if file.extension in ext_set["extensions"]:
