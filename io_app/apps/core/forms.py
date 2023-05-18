@@ -22,9 +22,6 @@ class StartFileProcessForm(forms.Form):
         if not file:
             raise ValidationError(MessagesConsts.FILE_DOESNT_EXIST)
 
-        if not file.extension not in MediaConsts.COMMON_ARCHIVES_EXTENSIONS:
-            raise ValidationError(MessagesConsts.FILE_IS_NOT_ARCHIVE)
-
         return data
 
     def clean_process_type_name(self):

@@ -106,7 +106,9 @@ def start_file_process(request):
             file_name = request.POST["file_name"]
             process_type_name = request.POST["process_type_name"]
 
-            processes_utils.start_file_process_for_user(request.user.id, process_type_name, file_name)
+            file = models.File.objects.filter(owner=request.user, name=file_name).first()
+
+            processes_utils.start_file_process_for_user(request.user.id, process_type_name, file.uuid)
             messages.add_message(request, messages.SUCCESS, MessagesConsts.PROCESS_STARTED_SUCCESSFULLY)
 
             return redirect("core:processes")
