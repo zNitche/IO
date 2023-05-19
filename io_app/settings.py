@@ -30,6 +30,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", os.urandom(25))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.getenv("DEBUG", 0))
+ADMIN_ENABLED = int(os.getenv("ENABLE_ADMIN", 0))
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]"]
 
@@ -49,7 +50,7 @@ INSTALLED_APPS = [
     'io_app.apps.api',
 ]
 
-if DEBUG:
+if DEBUG or ADMIN_ENABLED:
     INSTALLED_APPS.append("django.contrib.admin")
 
 MIDDLEWARE = [

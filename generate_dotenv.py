@@ -10,6 +10,7 @@ def get_main_config():
         "STORAGE_PATH": "",
         "FILES_UPLOAD_CHUNK_LENGTH": "4194304",
         "DEBUG": "0",
+        "ENABLE_ADMIN": "0",
     }
 
     return args

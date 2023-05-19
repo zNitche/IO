@@ -25,7 +25,7 @@ urlpatterns = [
 ]
 
 
-if settings.DEBUG:
+if settings.DEBUG or settings.ADMIN_ENABLED:
     from django.contrib import admin
 
     admin.site.site_header = "IO admin"
