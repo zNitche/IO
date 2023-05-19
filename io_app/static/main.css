@@ -381,6 +381,11 @@ body {
     gap: 10px 0;
 }
 
+.directory-name {
+    color: #fff !important;
+    text-decoration: none;
+}
+
 @media (max-width: 576px) {
 
 }

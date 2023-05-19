@@ -7,7 +7,12 @@
     <!-- Page content -->
     <div class="page-content-wrapper mb-3">
         <div class="content-wrapper">
-            <h3>{{directory.name}}</h3>
+            <a class="directory-name" data-bs-toggle="collapse" href="#changeDirectoryNameCollapsible" role="button"
+               aria-expanded="false" aria-controls="changeDirectoryNameCollapsible">
+                <h3>
+                    {{directory.name}}
+                </h3>
+            </a>
             <div class="file-details-wrapper">
               <span>
                   <b>UUID:</b> {{directory.uuid}}
@@ -38,6 +43,16 @@
                 </button>
               </form>
             </div>
+        </div>
+        <div class="content-wrapper collapse" id="changeDirectoryNameCollapsible">
+            <form method="POST" action="{% url 'storage_manager:directory_change_name' directory_uuid=directory.uuid %}" class="px-2 mb-3">
+                {% csrf_token %}
+                {{ change_directory_name_form }}
+
+                <button class="accept-button btn login-button" type="submit">
+                    Update Name
+                </button>
+            </form>
         </div>
         <div class="content-wrapper">
             <button class="btn collapsible-primary-btn" type="button" data-bs-toggle="collapse"

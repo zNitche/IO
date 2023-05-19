@@ -25,6 +25,8 @@ class MessagesConsts:
     PROCESS_DOESNT_EXIST = "Process doesn't exist"
     PROCESS_STARTED_SUCCESSFULLY = "Process started successfully"
     FILE_IS_NOT_ARCHIVE = "File is not archive"
+    CHANGED_DIRECTORY_NAME = "Changed directory name"
+    ERROR_WHILE_CHANGING_DIRECTORY_NAME = "Error while changing directory name"
 
 
 class PaginationConsts:

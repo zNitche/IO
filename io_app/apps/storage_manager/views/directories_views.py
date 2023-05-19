@@ -37,6 +37,9 @@ def add_directory(request):
 def directory_management(request, directory_uuid):
     directory = get_object_or_404(models.Directory, uuid=directory_uuid, owner=request.user)
 
+    change_directory_name_form = forms.ChangeDirectoryNameForm()
+    change_directory_name_form.fields["directory_name"].initial = directory.name
+
     update_files_form = forms.UpdateDirectoryFilesForm()
     directory_files = [(file.name, file.name) for file in directory.files.all()]
     all_files = [(file.name, file.name) for file in request.user.files.filter(directory=None).all()]
@@ -51,6 +54,7 @@ def directory_management(request, directory_uuid):
         "directory": directory,
         "update_files_form": update_files_form,
         "share_to_user_form": share_to_user_form,
+        "change_directory_name_form": change_directory_name_form,
     }
 
     return render(request, "directory_management.html", context)
@@ -142,5 +146,27 @@ def remove_directory_from_shared(request, directory_uuid):
             messages.add_message(request, messages.ERROR, MessagesConsts.DIRECTORY_NOT_SHARED_TO_USER)
     else:
         messages.add_message(request, messages.ERROR, MessagesConsts.USER_DOESNT_EXIST)
+
+    return redirect("storage_manager:directory_management", directory_uuid=directory_uuid)
+
+
+@login_required
+@require_http_methods(["POST"])
+def directory_change_name(request, directory_uuid):
+    directory = get_object_or_404(models.Directory, uuid=directory_uuid, owner=request.user)
+
+    form = forms.ChangeDirectoryNameForm(data=request.POST)
+    form.user = request.user
+
+    if form.is_valid():
+        directory_name = request.POST["directory_name"]
+
+        directory.name = directory_name
+        directory.save()
+
+        messages.add_message(request, messages.SUCCESS, MessagesConsts.CHANGED_DIRECTORY_NAME)
+
+    else:
+        messages.add_message(request, messages.ERROR, MessagesConsts.ERROR_WHILE_CHANGING_DIRECTORY_NAME)
 
     return redirect("storage_manager:directory_management", directory_uuid=directory_uuid)
