@@ -64,3 +64,8 @@ class ProcessesConsts:
     PROCESS_TIMESTAMP = "timestamp"
     OWNER_ID = "owner_id"
     FILE_UUID = "file_uuid"
+
+
+class TasksDelays:
+    FILES_CLEANER_PROCESS_INTERVAL = 3600
+    FILES_CLEANER_WAIT = 60
