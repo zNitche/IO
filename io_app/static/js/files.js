@@ -1,4 +1,4 @@
-function showFileInfoModal(modalID, filename, size, extension, uuid, upload_date, directory_name, directory_url) {
+function showFileInfoModal(modalID, filename, size, extension, uuid, upload_date, directory_name, directory_url, can_be_previewed) {
     const management_url_base = `/storage/files/${uuid}`;
 
     let modal = new bootstrap.Modal(document.getElementById(modalID));
@@ -13,7 +13,15 @@ function showFileInfoModal(modalID, filename, size, extension, uuid, upload_date
     document.getElementById("modal-file-directory-link").href = directory_url;
 
     document.getElementById("modal-file-download").action = `${management_url_base}/download/`;
-    document.getElementById("modal-file-preview").href = `${management_url_base}/preview/`;
+
+    const previewButton = document.getElementById("modal-file-preview");
+
+    if (can_be_previewed) {
+        previewButton.classList.remove("d-none");
+        previewButton.href = `${management_url_base}/preview/`;
+    } else {
+        previewButton.classList.add("d-none");
+    }
 
     const managementButton = document.getElementById("modal-file-management");
     if (managementButton) {

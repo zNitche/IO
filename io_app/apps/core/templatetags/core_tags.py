@@ -17,3 +17,14 @@ def get_icon_for_file(context, file):
             break
 
     return static(icons_prefix + icon)
+
+
+@register.simple_tag(takes_context=True)
+def can_file_be_previewed(context, file):
+    disallowed_extensions = MediaConsts.COMMON_ARCHIVE_EXTENSIONS
+    can_be_previewed = "true"
+
+    if file.extension in disallowed_extensions:
+        can_be_previewed = "false"
+
+    return can_be_previewed

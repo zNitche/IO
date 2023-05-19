@@ -6,7 +6,7 @@
         <div class="file-wrapper"
              onclick="showFileInfoModal('fileInfoModal', '{{file.name}}', '{{file.get_file_size_in_mb}}',
                   '{{file.extension}}', '{{file.uuid}}', '{{file.upload_date|date:'d-m-Y G:i'}}', '{{file.get_directory_name}}',
-                  '{{ file.get_directory_url }}')">
+                  '{{ file.get_directory_url }}', {% can_file_be_previewed file %})">
             <img src="{% get_icon_for_file file %}">
             <span>{{ file.name }}</span>
         </div>
