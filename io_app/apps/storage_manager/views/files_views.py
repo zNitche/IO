@@ -169,7 +169,7 @@ def change_directory(request, file_uuid):
     form.fields["directory_name"].choices = user_directories
 
     if form.is_valid():
-        directory_name = request.POST["directory_name"]
+        directory_name = form.cleaned_data["directory_name"]
 
         if directory_name != "root":
             directory = models.Directory.objects.filter(name=directory_name, owner=request.user).first()

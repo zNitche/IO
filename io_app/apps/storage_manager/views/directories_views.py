@@ -22,7 +22,7 @@ def add_directory(request):
         form.user = request.user
 
         if form.is_valid():
-            directory_name = request.POST["directory_name"]
+            directory_name = form.cleaned_data["directory_name"]
             models.Directory(name=directory_name, owner=request.user).save()
 
             messages.add_message(request, messages.SUCCESS, MessagesConsts.DIRECTORY_ADDED)
@@ -85,7 +85,7 @@ def update_directory_files(request, directory_uuid):
     form.fields["files"].choices = directory_files + all_files
 
     if form.is_valid():
-        files = request.POST.getlist("files")
+        files = form.cleaned_data["files"]
 
         files_models = [file for file in request.user.files.all() if file.name in files]
 
@@ -107,7 +107,7 @@ def share_directory_to_user(request, directory_uuid):
     form.user = request.user
 
     if form.is_valid():
-        username = request.POST["username"]
+        username = form.cleaned_data["username"]
         user = get_user_model().objects.filter(username=username).first()
 
         if user not in directory.shared_to_users.all():
@@ -159,7 +159,7 @@ def directory_change_name(request, directory_uuid):
     form.user = request.user
 
     if form.is_valid():
-        directory_name = request.POST["directory_name"]
+        directory_name = form.cleaned_data["directory_name"]
 
         directory.name = directory_name
         directory.save()

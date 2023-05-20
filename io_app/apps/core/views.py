@@ -103,7 +103,7 @@ def start_archive_extraction_process(request):
 
     if request.method == "POST":
         if form.is_valid():
-            file_name = request.POST["file_name"]
+            file_name = form.cleaned_data["file_name"]
 
             file = models.File.objects.filter(owner=request.user, name=file_name).first()
 
@@ -126,7 +126,7 @@ def start_directory_compression_process(request):
 
     if request.method == "POST":
         if form.is_valid():
-            directory_name = request.POST["directory_name"]
+            directory_name = form.cleaned_data["directory_name"]
             directory = models.Directory.objects.filter(owner=request.user, name=directory_name).first()
 
             processes_utils.start_file_process_for_user(request.user.id, "DirectoryCompression", directory.uuid)
