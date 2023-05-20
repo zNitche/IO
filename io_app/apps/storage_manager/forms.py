@@ -59,6 +59,23 @@ class ChangeDirectoryNameForm(forms.Form):
         return data
 
 
+class ChangeFileNameForm(forms.Form):
+    file_name = forms.CharField(label="", max_length=200, widget=forms.TextInput(attrs={
+        "class": "form-control",
+    }))
+
+    template_name = "components/form.html"
+
+    def clean_file_name(self):
+        data = self.cleaned_data["file_name"]
+        file = models.File.objects.filter(owner=self.user, name=data).first()
+
+        if file:
+            raise ValidationError(MessagesConsts.FILE_EXISTS)
+
+        return data
+
+
 class UpdateDirectoryFilesForm(forms.Form):
     files = forms.MultipleChoiceField(label="", widget=forms.CheckboxSelectMultiple(attrs={
         "class": "checkboxes-wrapper",

@@ -7,7 +7,10 @@
     <!-- Page content -->
     <div class="page-content-wrapper mb-3">
         <div class="content-wrapper">
-            <h3>{{file.name}}</h3>
+            <a class="file-name" data-bs-toggle="collapse" href="#changeFileNameCollapsible" role="button"
+               aria-expanded="false" aria-controls="changeFileNameCollapsible">
+               <h3>{{file.name}}</h3>
+            </a>
             <div class="file-details-wrapper">
               <span>
                   <b>UUID:</b> {{file.uuid}}
@@ -40,6 +43,16 @@
                 </button>
               </form>
             </div>
+        </div>
+        <div class="content-wrapper collapse" id="changeFileNameCollapsible">
+            <form method="POST" action="{% url 'storage_manager:file_change_name' file_uuid=file.uuid %}" class="px-2 mb-3">
+                {% csrf_token %}
+                {{ change_file_name_form }}
+
+                <button class="accept-button btn login-button" type="submit">
+                    Update Name
+                </button>
+            </form>
         </div>
         <div class="content-wrapper">
             <form method="POST" action="{% url 'storage_manager:change_directory' file_uuid=file.uuid %}" class="px-2">

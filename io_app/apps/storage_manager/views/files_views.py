@@ -120,6 +120,9 @@ def remove_file(request, file_uuid):
 def file_management(request, file_uuid):
     file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
 
+    change_file_name_form = forms.ChangeFileNameForm(None)
+    change_file_name_form.fields["file_name"].initial = file.name
+
     change_directory_form = forms.ChangeDirectoryForm(None)
 
     user_directories = [(directory.name, directory.name) for directory in request.user.directories.all()]
@@ -131,6 +134,7 @@ def file_management(request, file_uuid):
     context = {
         "file": file,
         "change_directory_form": change_directory_form,
+        "change_file_name_form": change_file_name_form,
     }
 
     return render(request, "file_management.html", context)
@@ -176,5 +180,27 @@ def change_directory(request, file_uuid):
         file.save()
 
         messages.add_message(request, messages.SUCCESS, MessagesConsts.DIRECTORY_CHANGED)
+
+    return redirect("storage_manager:file_management", file_uuid=file_uuid)
+
+
+@login_required
+@require_http_methods(["POST"])
+def file_change_name(request, file_uuid):
+    file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
+
+    form = forms.ChangeFileNameForm(data=request.POST)
+    form.user = request.user
+
+    if form.is_valid():
+        file_name = form.cleaned_data["file_name"]
+
+        file.name = file_name
+        file.save()
+
+        messages.add_message(request, messages.SUCCESS, MessagesConsts.CHANGED_FILE_NAME)
+
+    else:
+        messages.add_message(request, messages.ERROR, MessagesConsts.ERROR_WHILE_CHANGING_FILE_NAME)
 
     return redirect("storage_manager:file_management", file_uuid=file_uuid)

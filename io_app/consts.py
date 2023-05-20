@@ -28,6 +28,9 @@ class MessagesConsts:
     CHANGED_DIRECTORY_NAME = "Changed directory name"
     ERROR_WHILE_CHANGING_DIRECTORY_NAME = "Error while changing directory name"
     ARCHIVE_FOR_DIRECTORY_EXISTS = "Archive for directory already exists"
+    FILE_EXISTS = "File already exists"
+    CHANGED_FILE_NAME = "Changed file name"
+    ERROR_WHILE_CHANGING_FILE_NAME = "Error while changing file name"
 
 
 class PaginationConsts:

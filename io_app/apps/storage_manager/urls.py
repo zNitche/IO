@@ -12,6 +12,7 @@ urlpatterns = [
     path("files/<str:file_uuid>/preview/", files_views.preview_raw, name="preview_raw"),
     path("files/<str:file_uuid>/management/", files_views.file_management, name="file_management"),
     path("files/<str:file_uuid>/change_directory/", files_views.change_directory, name="change_directory"),
+    path("files/<str:file_uuid>/change_name/", files_views.file_change_name, name="file_change_name"),
     path("directories/add", directories_views.add_directory, name="add_directory"),
     path("directories/<str:directory_uuid>/management/", directories_views.directory_management,
          name="directory_management"),

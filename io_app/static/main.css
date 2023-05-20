@@ -386,6 +386,11 @@ body {
     text-decoration: none;
 }
 
+.file-name {
+    color: #fff !important;
+    text-decoration: none;
+}
+
 @media (max-width: 576px) {
 
 }
