@@ -30,9 +30,6 @@ class ArchiveExtraction(UserTaskBase):
 
     def get_work_update_callback(self, current_step, total_steps):
         self.calc_progres(current_step, total_steps)
-
-        self.logger.debug(str(self.task_progress))
-
         self.update_process_data()
 
     def get_process_data(self):

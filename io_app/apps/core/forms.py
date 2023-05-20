@@ -22,3 +22,25 @@ class StartArchiveExtractionProcessForm(forms.Form):
             raise ValidationError(MessagesConsts.FILE_IS_NOT_ARCHIVE)
 
         return data
+
+
+class StartDirectoryCompressionProcessForm(forms.Form):
+    directory_name = forms.ChoiceField(label="", widget=forms.Select(attrs={
+        "class": "form-select",
+    }))
+
+    template_name = "components/form.html"
+
+    def clean_directory_name(self):
+        data = self.cleaned_data["directory_name"]
+
+        directory = models.Directory.objects.filter(owner=self.user, name=data).first()
+        file = models.File.objects.filter(owner=self.user, name=directory.uuid).first()
+
+        if not directory:
+            raise ValidationError(MessagesConsts.DIRECTORY_DOESNT_EXIST)
+
+        if file:
+            raise ValidationError(MessagesConsts.ARCHIVE_FOR_DIRECTORY_EXISTS)
+
+        return data

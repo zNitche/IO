@@ -113,3 +113,25 @@ def start_archive_extraction_process(request):
             return redirect("core:processes")
 
     return render(request, "start_process.html", {"form": form})
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def start_directory_compression_process(request):
+    form = forms.StartDirectoryCompressionProcessForm(data=request.POST or None)
+    form.user = request.user
+
+    directories = models.Directory.objects.filter(owner=request.user).all()
+    form.fields["directory_name"].choices = [(directory.name, directory.name) for directory in directories]
+
+    if request.method == "POST":
+        if form.is_valid():
+            directory_name = request.POST["directory_name"]
+            directory = models.Directory.objects.filter(owner=request.user, name=directory_name).first()
+
+            processes_utils.start_file_process_for_user(request.user.id, "DirectoryCompression", directory.uuid)
+            messages.add_message(request, messages.SUCCESS, MessagesConsts.PROCESS_STARTED_SUCCESSFULLY)
+
+            return redirect("core:processes")
+
+    return render(request, "start_process.html", {"form": form})

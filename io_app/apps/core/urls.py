@@ -15,4 +15,6 @@ urlpatterns = [
     path("processes/", views.processes, name="processes"),
     path("processes/start_archive_extraction_process/start/", views.start_archive_extraction_process,
          name="start_archive_extraction_process"),
+    path("processes/start_directory_compression_process/start/", views.start_directory_compression_process,
+         name="start_directory_compression_process"),
 ]

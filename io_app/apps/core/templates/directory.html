@@ -22,16 +22,13 @@
                   <b>Creation date:</b> {{directory.creation_date|date:'d-m-Y G:i'}}</span>
               </span>
             </div>
-            <div class="mb-3 directory-controls-wrapper">
-                {% if directory.owner == request.user %}
+            {% if directory.owner == request.user %}
+                <div class="mb-3 directory-controls-wrapper">
                     <a class="btn btn-success" href="{% url 'storage_manager:directory_management' directory_uuid=directory.uuid %}" role="button">
                       Manage
                     </a>
-                {% endif %}
-                <a class="btn btn-primary" href="#" role="button">
-                  Download
-                </a>
-            </div>
+                </div>
+            {% endif %}
             <div class="mb-3">
                 <form action="{% url 'core:directory_content' directory_uuid=directory.uuid %}" method="GET">
                     {% include "components/search_bar.html" with search_value=search_file_name search_name="search_file" search_placeholder="search files" %}

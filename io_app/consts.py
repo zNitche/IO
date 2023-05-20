@@ -27,6 +27,7 @@ class MessagesConsts:
     FILE_IS_NOT_ARCHIVE = "File is not archive"
     CHANGED_DIRECTORY_NAME = "Changed directory name"
     ERROR_WHILE_CHANGING_DIRECTORY_NAME = "Error while changing directory name"
+    ARCHIVE_FOR_DIRECTORY_EXISTS = "Archive for directory already exists"
 
 
 class PaginationConsts:

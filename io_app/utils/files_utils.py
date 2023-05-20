@@ -1,6 +1,7 @@
 from django.conf import settings
 import os
 import uuid
+import zipfile
 from io_app.consts import MediaConsts
 
 
@@ -82,3 +83,29 @@ def save_file_from_request(request, file_path):
 
 def generate_uuid():
     return str(uuid.uuid4().hex)
+
+
+def zip_files(archive_path, files_data_struct, progress_callback=None):
+    with zipfile.ZipFile(archive_path, "w", zipfile.ZIP_DEFLATED) as archive:
+        files_count = len(files_data_struct.keys())
+
+        for file_id, file_uuid in enumerate(files_data_struct.keys()):
+            file_data = files_data_struct[file_uuid]
+
+            archive.write(file_data["path"], file_data["name"])
+
+            if progress_callback is not None:
+                progress_callback(file_id, files_count)
+
+
+def zip_directory(archive_path, dir_path, progress_callback=None):
+    with zipfile.ZipFile(archive_path, "w", zipfile.ZIP_DEFLATED) as archive:
+        files_count = len(os.listdir(dir_path))
+
+        for file_id, file in enumerate(os.listdir(dir_path)):
+            file_path = os.path.join(dir_path, file)
+
+            archive.write(file_path, file_path)
+
+            if progress_callback is not None:
+                progress_callback(file_id, files_count)
