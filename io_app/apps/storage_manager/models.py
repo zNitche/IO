@@ -62,3 +62,12 @@ class File(models.Model):
             shared = True
 
         return shared
+
+    def can_be_previewed(self):
+        disallowed_extensions = MediaConsts.COMMON_ARCHIVE_EXTENSIONS
+        can_be_previewed = True
+
+        if self.extension in disallowed_extensions:
+            can_be_previewed = False
+
+        return can_be_previewed

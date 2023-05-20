@@ -26,9 +26,11 @@
               </span>
             </div>
             <div class="file-details-controls-wrapper">
-              <a class="btn btn-secondary" href="{% url 'storage_manager:preview_raw' file_uuid=file.uuid %}" role="button" target="_blank">
-                  Preview
-              </a>
+              {% if file.can_be_previewed %}
+                  <a class="btn btn-secondary" href="{% url 'storage_manager:preview_raw' file_uuid=file.uuid %}" role="button" target="_blank">
+                      Preview
+                  </a>
+              {% endif %}
               <button type="button" class="btn btn-danger" data-bs-target="#removeFileModal" data-bs-toggle="modal">
                   Remove
               </button>
