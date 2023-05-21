@@ -31,6 +31,7 @@ class MessagesConsts:
     FILE_EXISTS = "File already exists"
     CHANGED_FILE_NAME = "Changed file name"
     ERROR_WHILE_CHANGING_FILE_NAME = "Error while changing file name"
+    NOT_ENOUGH_STORAGE_FOR_OPERATION = "You don't have enough storage space for this operation"
 
 
 class PaginationConsts:
@@ -44,6 +45,8 @@ class MediaConsts:
     COMMON_VIDEO_EXTENSIONS = ["webm", "mp4"]
     COMMON_AUDIO_EXTENSIONS = ["aac", "mp3", "ogg"]
     COMMON_ARCHIVE_EXTENSIONS = ["zip"]
+
+    CAN_BE_PREVIEWED_EXTENSIONS = COMMON_VIDEO_EXTENSIONS + COMMON_IMAGE_EXTENSIONS + COMMON_AUDIO_EXTENSIONS
 
     ICONS_FOR_EXTENSIONS = [
         {
