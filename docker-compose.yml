@@ -1,0 +1,68 @@
+version: "3"
+services:
+  redis:
+    image: redis:6.2-alpine
+    command: /bin/sh -c "redis-server --port 6000"
+    container_name: redis
+    restart: unless-stopped
+
+  web_app:
+    depends_on:
+      - redis
+    container_name: io_app
+    command: /bin/sh -c "/io_app/scripts/entrypoint.sh"
+    build: .
+    restart: unless-stopped
+#    ports:
+#      - "8000:8000"
+    volumes:
+      - ${DB_PATH}:/io_app/database
+      - ${STORAGE_PATH}:/io_app/storage
+      - ${LOGS_PATH}:/io_app/logs
+      - static_files:/io_app/io_app/static
+    env_file:
+      - .env
+
+  celery_worker:
+    depends_on:
+      - redis
+      - web_app
+    command: /bin/sh -c "/io_app/scripts/celery_entrypoint.sh"
+    container_name: ao3_web_reader_celery_worker
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ${DB_PATH}:/io_app/database
+      - ${STORAGE_PATH}:/io_app/storage
+      - ${LOGS_PATH}:/io_app/logs
+    env_file:
+      - .env
+
+  celery_beat_worker:
+    depends_on:
+      - redis
+      - web_app
+      - celery_worker
+    command: /bin/sh -c "/io_app/scripts/celery_beat_entrypoint.sh"
+    container_name: ao3_web_reader_celery_beat_worker
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ${DB_PATH}:/io_app/database
+      - ${STORAGE_PATH}:/io_app/storage
+      - ${LOGS_PATH}:/io_app/logs
+    env_file:
+      - .env
+
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - static_files:/io_app/static
+    depends_on:
+      - web_app
+
+volumes:
+  static_files:
