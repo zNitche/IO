@@ -28,7 +28,7 @@ services:
       - redis
       - web_app
     command: /bin/sh -c "/io_app/scripts/celery_entrypoint.sh"
-    container_name: ao3_web_reader_celery_worker
+    container_name: io_celery_worker
     build: .
     restart: unless-stopped
     volumes:
@@ -45,7 +45,7 @@ services:
       - web_app
       - celery_worker
     command: /bin/sh -c "/io_app/scripts/celery_beat_entrypoint.sh"
-    container_name: ao3_web_reader_celery_beat_worker
+    container_name: io_celery_beat_worker
     build: .
     restart: unless-stopped
     volumes:
