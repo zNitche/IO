@@ -95,7 +95,7 @@ def zip_files(archive_path, files_data_struct, progress_callback=None):
             archive.write(file_data["path"], file_data["name"])
 
             if progress_callback is not None:
-                progress_callback(file_id, files_count)
+                progress_callback(file_id + 1, files_count)
 
 
 def zip_directory(archive_path, dir_path, progress_callback=None):
@@ -108,7 +108,7 @@ def zip_directory(archive_path, dir_path, progress_callback=None):
             archive.write(file_path, file_path)
 
             if progress_callback is not None:
-                progress_callback(file_id, files_count)
+                progress_callback(file_id + 1, files_count)
 
 
 def check_if_user_have_enough_space_for_file(user, file_size):

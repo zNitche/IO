@@ -71,6 +71,7 @@ class ProcessesConsts:
     PROCESS_TIMESTAMP = "timestamp"
     OWNER_ID = "owner_id"
     FILE_UUID = "file_uuid"
+    DIRECTORY_UUID = "directory_uuid"
 
 
 class TasksDelays:

@@ -28,7 +28,7 @@ class ArchiveExtraction(UserTaskBase):
     def calc_progres(self, current_step, max_steps):
         self.task_progress = int(current_step * 100 / max_steps)
 
-    def get_work_update_callback(self, current_step, total_steps):
+    def update_progress_callback(self, current_step, total_steps):
         self.calc_progres(current_step, total_steps)
         self.update_process_data()
 
@@ -53,7 +53,7 @@ class ArchiveExtraction(UserTaskBase):
                 except zipfile.error as e:
                     pass
 
-                self.calc_progres(file_id, archive_files_count)
+                self.update_progress_callback(file_id + 1, archive_files_count)
 
     def add_files(self, files_path, output_path):
         new_dir_model = models.Directory(owner_id=self.owner_id, name=self.timestamp)

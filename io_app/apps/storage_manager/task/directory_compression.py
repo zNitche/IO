@@ -16,9 +16,9 @@ class DirectoryCompression(UserTaskBase):
 
         self.directory_uuid = ""
 
-    def run(self, owner_id, file_uuid):
+    def run(self, owner_id, directory_uuid):
         self.owner_id = owner_id
-        self.directory_uuid = file_uuid
+        self.directory_uuid = directory_uuid
 
         self.process_cache_key = f"{self.owner_id}_{self.get_process_name()}_{self.timestamp}"
 
@@ -27,7 +27,7 @@ class DirectoryCompression(UserTaskBase):
     def calc_progres(self, current_step, max_steps):
         self.task_progress = int(current_step * 100 / max_steps)
 
-    def get_work_update_callback(self, current_step, total_steps):
+    def update_progress_callback(self, current_step, total_steps):
         self.calc_progres(current_step, total_steps)
         self.update_process_data()
 
@@ -36,7 +36,7 @@ class DirectoryCompression(UserTaskBase):
             ProcessesConsts.OWNER_ID: self.owner_id,
             ProcessesConsts.PROCESS_NAME: self.get_process_name(),
             ProcessesConsts.PROGRESS: self.task_progress,
-            ProcessesConsts.FILE_UUID: self.directory_uuid,
+            ProcessesConsts.DIRECTORY_UUID: self.directory_uuid,
         }
 
         return process_data
@@ -51,7 +51,6 @@ class DirectoryCompression(UserTaskBase):
             }
 
         return files_data_struct
-
 
     def mainloop(self):
         self.update_process_data()
@@ -68,7 +67,7 @@ class DirectoryCompression(UserTaskBase):
                 tmp_dir_path = os.path.join(tempfile.gettempdir(), tmpdir)
                 archive_path = os.path.join(tmp_dir_path, archive_name)
 
-                files_utils.zip_files(archive_path, files_data_struct, progress_callback=self.calc_progres)
+                files_utils.zip_files(archive_path, files_data_struct, progress_callback=self.update_progress_callback)
 
                 archive_uuid = files_utils.generate_uuid()
                 archive_final_path = os.path.join(files_path, archive_uuid)
