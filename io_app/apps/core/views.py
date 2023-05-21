@@ -7,7 +7,7 @@ from django.contrib import messages
 from io_app.consts import PaginationConsts, MessagesConsts
 from io_app.apps.storage_manager import models
 from io_app.apps.core import forms
-from io_app.utils import processes_utils
+from io_app.utils import processes_utils, files_utils
 
 
 @login_required
@@ -107,10 +107,14 @@ def start_archive_extraction_process(request):
 
             file = models.File.objects.filter(owner=request.user, name=file_name).first()
 
-            processes_utils.start_file_process_for_user(request.user.id, "ArchiveExtraction", file.uuid)
-            messages.add_message(request, messages.SUCCESS, MessagesConsts.PROCESS_STARTED_SUCCESSFULLY)
+            if files_utils.check_if_user_have_enough_space_for_file(request.user, file.size):
+                processes_utils.start_file_process_for_user(request.user.id, "ArchiveExtraction", file.uuid)
+                messages.add_message(request, messages.SUCCESS, MessagesConsts.PROCESS_STARTED_SUCCESSFULLY)
 
-            return redirect("core:processes")
+                return redirect("core:processes")
+
+            else:
+                messages.add_message(request, messages.ERROR, MessagesConsts.NOT_ENOUGH_STORAGE_FOR_OPERATION)
 
     return render(request, "start_process.html", {"form": form})
 
@@ -129,9 +133,15 @@ def start_directory_compression_process(request):
             directory_name = form.cleaned_data["directory_name"]
             directory = models.Directory.objects.filter(owner=request.user, name=directory_name).first()
 
-            processes_utils.start_file_process_for_user(request.user.id, "DirectoryCompression", directory.uuid)
-            messages.add_message(request, messages.SUCCESS, MessagesConsts.PROCESS_STARTED_SUCCESSFULLY)
+            directory_size = sum([file.size for file in directory.files.all()])
 
-            return redirect("core:processes")
+            if files_utils.check_if_user_have_enough_space_for_file(request.user, directory_size):
+                processes_utils.start_file_process_for_user(request.user.id, "DirectoryCompression", directory.uuid)
+                messages.add_message(request, messages.SUCCESS, MessagesConsts.PROCESS_STARTED_SUCCESSFULLY)
+
+                return redirect("core:processes")
+
+            else:
+                messages.add_message(request, messages.ERROR, MessagesConsts.NOT_ENOUGH_STORAGE_FOR_OPERATION)
 
     return render(request, "start_process.html", {"form": form})

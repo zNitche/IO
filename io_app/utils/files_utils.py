@@ -109,3 +109,10 @@ def zip_directory(archive_path, dir_path, progress_callback=None):
 
             if progress_callback is not None:
                 progress_callback(file_id, files_count)
+
+
+def check_if_user_have_enough_space_for_file(user, file_size):
+    used_space = get_user_storage_size(user.id)
+    total_storage = user.private_storage_space * MediaConsts.BYTES_IN_MB
+
+    return True if used_space + file_size <= total_storage else False

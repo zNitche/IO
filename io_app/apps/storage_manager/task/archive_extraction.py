@@ -13,7 +13,7 @@ class ArchiveExtraction(UserTaskBase):
     def __init__(self):
         super().__init__()
 
-        self.cache_data_timeout = 60
+        self.cache_data_timeout = 10800
 
         self.file_uuid = ""
 
