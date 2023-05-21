@@ -2,6 +2,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from io_app.utils import files_utils, tasks_utils
+from io_app.consts import ProcessesConsts
 
 
 @login_required
@@ -31,7 +32,11 @@ def storage_usage_by_filetype(request):
 
 @login_required
 @require_http_methods(["GET"])
-def running_processes_for_user(request, user_id):
-    processes_data = tasks_utils.get_tasks_data_for_user(user_id)
+def running_processes(request):
+    processes_data = tasks_utils.get_tasks_data_for_user(request.user.id)
 
-    return JsonResponse(data={"processes": processes_data})
+    for data in processes_data:
+        if ProcessesConsts.OWNER_ID in data.keys():
+            del data[ProcessesConsts.OWNER_ID]
+
+    return JsonResponse(data={"processes_data": processes_data})

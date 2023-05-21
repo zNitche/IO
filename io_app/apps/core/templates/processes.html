@@ -1,13 +1,10 @@
 {% extends "page_layout.html" %}
 {% load static %}
 {% block page_content %}
-    <div class="page-content-wrapper mb-3">
-        <div class="content-wrapper">
-            <h3>Processes</h3>
-            <div class="file-details-wrapper">
-              Processes For user
-            </div>
-        </div>
-    </div>
+    <div class="page-content-wrapper mb-3" id="processes-wrapper"></div>
 <script src="{% static 'js/processes.js' %}"></script>
+<script>
+    renderRunningProcesses();
+    setInterval(renderRunningProcesses, 2000);
+</script>
 {% endblock %}
