@@ -37,7 +37,9 @@ async function initStorageUsageStats() {
     const storageUsageByFiletypeData = await getData("/api/storage_usage_by_filetype");
 
     createDoughnutGraph("storage-usage", getDatasetForStorageUsageData(storageUsageData));
-    document.getElementById("storage-used-space-value").innerHTML = storageUsageData.used_space + "%";
+
+    const storageUsedPercentage = storageUsageData.used_space * 100 / (storageUsageData.used_space + storageUsageData.free_space);
+    document.getElementById("storage-used-space-value").innerHTML = parseInt(storageUsedPercentage) + "%";
 
     if (storageUsageData.used_space > 0) {
         createDoughnutGraph("storage-usage-by-type", getDatasetForStorageUsageByFiletypeData(storageUsageByFiletypeData));
