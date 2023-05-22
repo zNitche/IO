@@ -11,6 +11,7 @@ def get_main_config():
         "FILES_UPLOAD_CHUNK_LENGTH": "4194304",
         "DEBUG": "0",
         "ENABLE_ADMIN": "0",
+        "ALLOWED_HOSTS": ""
     }
 
     return args

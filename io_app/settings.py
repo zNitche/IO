@@ -32,7 +32,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", os.urandom(25))
 DEBUG = int(os.getenv("DEBUG", 0))
 ADMIN_ENABLED = int(os.getenv("ENABLE_ADMIN", 0))
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]"]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,[::1]").split(",")
 
 
 # Application definition
@@ -82,6 +82,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'io_app.wsgi.application'
+
+# https://docs.djangoproject.com/en/4.2/ref/middleware/#cross-origin-opener-policy
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 
 # Database
