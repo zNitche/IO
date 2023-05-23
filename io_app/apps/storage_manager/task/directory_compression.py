@@ -1,6 +1,5 @@
 import os
 import shutil
-import tempfile
 from django.conf import settings
 from io_app.celery_tasks.user_task_base import UserTaskBase
 from io_app.apps.storage_manager import models
@@ -63,8 +62,7 @@ class DirectoryCompression(UserTaskBase):
 
             archive_name = f"{self.directory_uuid}.zip"
 
-            with tempfile.TemporaryDirectory() as tmpdir:
-                tmp_dir_path = os.path.join(tempfile.gettempdir(), tmpdir)
+            with files_utils.tmp_directory_scope(settings.TMP_PATH) as tmp_dir_path:
                 archive_path = os.path.join(tmp_dir_path, archive_name)
 
                 files_utils.zip_files(archive_path, files_data_struct, progress_callback=self.update_progress_callback)

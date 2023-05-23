@@ -2,6 +2,9 @@ from django.conf import settings
 import os
 import uuid
 import zipfile
+import shutil
+from datetime import datetime
+from contextlib import contextmanager
 from io_app.consts import MediaConsts
 
 
@@ -116,3 +119,20 @@ def check_if_user_have_enough_space_for_file(user, file_size):
     total_storage = user.private_storage_space * MediaConsts.BYTES_IN_MB
 
     return True if used_space + file_size <= total_storage else False
+
+
+@contextmanager
+def tmp_directory_scope(path):
+    dir_path = os.path.join(path, str(datetime.now().timestamp()))
+
+    try:
+        os.mkdir(dir_path)
+
+        yield dir_path
+
+    except:
+        raise
+
+    finally:
+        if os.path.exists(dir_path):
+            shutil.rmtree(dir_path)

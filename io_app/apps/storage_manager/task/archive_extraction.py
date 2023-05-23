@@ -1,7 +1,6 @@
 import zipfile
 import os
 import shutil
-import tempfile
 from django.conf import settings
 from io_app.celery_tasks.user_task_base import UserTaskBase
 from io_app.apps.storage_manager import models
@@ -82,11 +81,9 @@ class ArchiveExtraction(UserTaskBase):
             files_path = os.path.join(settings.STORAGE_PATH, str(self.owner_id))
             archive_path = os.path.join(files_path, self.file_uuid)
 
-            with tempfile.TemporaryDirectory() as tmp_dir_name:
-                output_path = os.path.join(tempfile.gettempdir(), tmp_dir_name)
-
-                self.extract_zip(archive_path, output_path)
-                self.add_files(files_path, output_path)
+            with files_utils.tmp_directory_scope(settings.TMP_PATH) as tmp_dir_path:
+                self.extract_zip(archive_path, tmp_dir_path)
+                self.add_files(files_path, tmp_dir_path)
 
         except Exception as e:
             self.logger.error(f"[{self.get_process_name()}] - {str(e)}")

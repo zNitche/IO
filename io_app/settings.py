@@ -219,6 +219,7 @@ LOGIN_URL = "authenticate:login"
 # Files uploads config
 FILES_UPLOAD_CHUNK_LENGTH = int(os.getenv("FILES_UPLOAD_CHUNK_LENGTH", MediaConsts.BYTES_IN_MB * 4))
 STORAGE_PATH = os.path.join(PROJECT_DIR, "storage")
+TMP_PATH = os.path.join(PROJECT_DIR, "tmp_storage")
 
 
 # Celery
