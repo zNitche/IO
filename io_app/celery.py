@@ -32,3 +32,4 @@ def setup_periodic_tasks(sender, **kwargs):
 def at_start(sender, **k):
     with sender.app.connection() as conn:
          sender.app.send_task("io_app.apps.storage_manager.task.files_cleaner.FilesCleanerProcess", connection=conn)
+         sender.app.send_task("io_app.apps.storage_manager.task.tmp_cleaner.TmpCleanerProcess", connection=conn)
