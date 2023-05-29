@@ -66,4 +66,7 @@ sudo docker container exec -it io_app bash
 - Change user storage space: `python3 manage.py set_user_private_storage_space`
 
 #### Tests
-TODO
+App contains some example tests for available apps. To run them:
+```
+python3 manage.py test
+```
