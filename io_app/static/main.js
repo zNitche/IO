@@ -1,10 +1,10 @@
-function fallbackToLocalFileLink(el, localPath) {
-    el.href = localPath;
+function fallbackToRemoteFileLink(el, url) {
+    el.href = url;
 }
 
 
-function fallbackToLocalJS(el, localPath) {
-    document.write("<script src=" + localPath + "></script>");
+function fallbackToRemoteJS(el, url) {
+    document.write("<script src=" + url + "></script>");
 }
 
 

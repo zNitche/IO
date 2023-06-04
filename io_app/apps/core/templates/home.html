@@ -77,8 +77,8 @@
     </div>
 <script src="{% static 'js/files.js' %}"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"
-        onerror="fallbackToLocalJS(this, '{% static 'libs/chart.js' %}');">
+<script src="{% static 'libs/chart.js' %}"
+        onerror="fallbackToRemoteJS(this, 'https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js');">
 </script>
 <script src="{% static 'js/charts_utils.js' %}"></script>
 
