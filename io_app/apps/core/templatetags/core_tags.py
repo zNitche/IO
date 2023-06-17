@@ -22,3 +22,11 @@ def get_icon_for_file(context, file):
 @register.simple_tag(takes_context=True)
 def can_file_be_previewed(context, file):
     return "true" if file.can_be_previewed() else "false"
+
+
+@register.simple_tag(takes_context=True)
+def is_media_file(context, file):
+    media_extensions = MediaConsts.COMMON_AUDIO_EXTENSIONS + MediaConsts.COMMON_VIDEO_EXTENSIONS
+
+    return "true" if file.extension in media_extensions else "false"
+

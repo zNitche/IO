@@ -10,6 +10,7 @@ urlpatterns = [
     path("files/<str:file_uuid>/download/", files_views.download_file, name="download_file"),
     path("files/<str:file_uuid>/remove/", files_views.remove_file, name="remove_file"),
     path("files/<str:file_uuid>/preview/", files_views.preview_raw, name="preview_raw"),
+    path("files/<str:file_uuid>/stream/", files_views.stream_media_file, name="stream_media_file"),
     path("files/<str:file_uuid>/management/", files_views.file_management, name="file_management"),
     path("files/<str:file_uuid>/change_directory/", files_views.change_directory, name="change_directory"),
     path("files/<str:file_uuid>/change_name/", files_views.file_change_name, name="file_change_name"),

@@ -1,0 +1,9 @@
+{% extends "page_layout.html" %}
+{% load static %}
+{% block page_content %}
+    <div class="centered-container video-player-container">
+        <video controls>
+          <source src="{% url 'storage_manager:stream_media_file' file_uuid=file.uuid %}" type="video/mp4">
+        </video>
+    </div>
+{% endblock %}

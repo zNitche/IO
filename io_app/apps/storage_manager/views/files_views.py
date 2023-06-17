@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponse
 from django.conf import settings
 from django.contrib import messages
 from io_app.utils import files_utils, common_utils
@@ -11,6 +11,7 @@ from io_app.consts import MessagesConsts, MediaConsts
 from io_app.apps.storage_manager import forms
 import logging
 import os
+import re
 
 
 logger = logging.getLogger(settings.LOGGER_NAME)
@@ -147,14 +148,45 @@ def preview_raw(request, file_uuid):
 
     if file.owner == request.user or file.check_if_shared_to_user(request.user):
         file_path = os.path.join(settings.STORAGE_PATH, str(file.owner.id), file.uuid)
+        media_extensions = MediaConsts.COMMON_VIDEO_EXTENSIONS + MediaConsts.COMMON_AUDIO_EXTENSIONS
 
-        if file.extension in MediaConsts.COMMON_AUDIO_EXTENSIONS or file.extension in MediaConsts.COMMON_VIDEO_EXTENSIONS:
-            return common_utils.serve_media_file(file_path, file.name)
+        if file.extension in media_extensions:
+            return render(request, "media_player.html", {"file": file})
 
         else:
             return common_utils.send_file(file_path, file.name, as_attachment=False)
     else:
         raise Http404
+
+
+@login_required
+@require_http_methods(["GET"])
+def stream_media_file(request, file_uuid):
+    file = get_object_or_404(models.File, uuid=file_uuid)
+    media_extensions = MediaConsts.COMMON_VIDEO_EXTENSIONS + MediaConsts.COMMON_AUDIO_EXTENSIONS
+
+    if file.extension in media_extensions:
+        range_header = request.headers.get("range")
+
+        if range_header:
+            file_path = os.path.join(settings.STORAGE_PATH, str(file.owner.id), file.uuid)
+            file_size = files_utils.get_size_of_file(file_path)
+
+            chunk_start = int(re.sub("\D", "", range_header))
+            chunk_end = min(chunk_start + settings.MEDIA_FILE_STREAMING_CHUNK_SIZE, file_size - 1)
+
+            headers = {
+                "Content-Range": f"bytes {chunk_start}-{chunk_end}/{file_size}",
+                "Accept-Ranges": "bytes",
+                "Content-Length": chunk_end - chunk_start + 1,
+                "Content-Type": "video/mp4",
+            }
+
+            file_chunk = files_utils.get_file_chunk(file_path, chunk_start, settings.MEDIA_FILE_STREAMING_CHUNK_SIZE)
+
+            return HttpResponse(file_chunk, headers=headers, status=206)
+
+    raise Http404
 
 
 @login_required

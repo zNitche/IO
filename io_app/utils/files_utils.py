@@ -136,3 +136,11 @@ def tmp_directory_scope(path):
     finally:
         if os.path.exists(dir_path):
             shutil.rmtree(dir_path)
+
+
+def get_file_chunk(file_path, chunk_start, chunk_size):
+    with open(file_path, "rb") as file:
+        file.seek(chunk_start)
+        chunk = file.read(chunk_size)
+
+    return chunk

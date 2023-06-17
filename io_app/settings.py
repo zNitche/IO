@@ -221,6 +221,7 @@ FILES_UPLOAD_CHUNK_LENGTH = int(os.getenv("FILES_UPLOAD_CHUNK_LENGTH", MediaCons
 STORAGE_PATH = os.path.join(PROJECT_DIR, "storage")
 TMP_PATH = os.path.join(PROJECT_DIR, "tmp_storage")
 
+MEDIA_FILE_STREAMING_CHUNK_SIZE = MediaConsts.BYTES_IN_MB * 4
 
 # Celery
 if DEBUG:
