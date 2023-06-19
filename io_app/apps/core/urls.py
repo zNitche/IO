@@ -17,4 +17,7 @@ urlpatterns = [
          name="start_archive_extraction_process"),
     path("processes/start_directory_compression_process/start/", views.start_directory_compression_process,
          name="start_directory_compression_process"),
+    path("processes/start_video_compatibility_conversion_process/start/",
+         views.start_video_compatibility_conversion_process,
+         name="start_video_compatibility_conversion_process"),
 ]

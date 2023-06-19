@@ -20,6 +20,7 @@ Django powered files server, successor of [HomeDrive](https://github.com/zNitche
 - Celery powered background processes:
   - `.zip` archives extraction.
   - directories compression.
+  - videos conversion to be compatible with HTML5 video players.
 - Grouping files using directories.
 - Sharing directories / files to other users.
 - Downloading files / directories.

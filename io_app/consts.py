@@ -25,6 +25,7 @@ class MessagesConsts:
     PROCESS_DOESNT_EXIST = "Process doesn't exist"
     PROCESS_STARTED_SUCCESSFULLY = "Process started successfully"
     FILE_IS_NOT_ARCHIVE = "File is not archive"
+    FILE_IS_NOT_VIDEO = "File is not video"
     CHANGED_DIRECTORY_NAME = "Changed directory name"
     ERROR_WHILE_CHANGING_DIRECTORY_NAME = "Error while changing directory name"
     ARCHIVE_FOR_DIRECTORY_EXISTS = "Archive for directory already exists"
@@ -72,6 +73,7 @@ class ProcessesConsts:
     OWNER_ID = "owner_id"
     FILE_UUID = "file_uuid"
     DIRECTORY_UUID = "directory_uuid"
+    RE_ENCODE = "re_encode"
 
 
 class TasksDelays:

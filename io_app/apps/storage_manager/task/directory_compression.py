@@ -15,7 +15,7 @@ class DirectoryCompression(UserTaskBase):
 
         self.directory_uuid = ""
 
-    def run(self, owner_id, directory_uuid):
+    def run(self, owner_id, directory_uuid, context=None):
         self.owner_id = owner_id
         self.directory_uuid = directory_uuid
 
@@ -23,11 +23,11 @@ class DirectoryCompression(UserTaskBase):
 
         self.mainloop()
 
-    def calc_progres(self, current_step, max_steps):
+    def calc_progress(self, current_step, max_steps):
         self.task_progress = int(current_step * 100 / max_steps)
 
     def update_progress_callback(self, current_step, total_steps):
-        self.calc_progres(current_step, total_steps)
+        self.calc_progress(current_step, total_steps)
         self.update_process_data()
 
     def get_process_data(self):

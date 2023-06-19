@@ -3,7 +3,7 @@ from python:3.10-slim
 COPY . /io_app
 WORKDIR /io_app
 
-RUN apt update && apt -y install nano curl
+RUN apt update && apt -y install nano curl ffmpeg
 
 RUN curl -o /io_app/io_app/static/libs/chart.js  https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js
 RUN curl -o /io_app/io_app/static/libs/bootstrap.min.css  https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css

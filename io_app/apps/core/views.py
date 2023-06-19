@@ -4,7 +4,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.contrib import messages
-from io_app.consts import PaginationConsts, MessagesConsts
+from io_app.consts import PaginationConsts, MessagesConsts, MediaConsts
 from io_app.apps.storage_manager import models
 from io_app.apps.core import forms
 from io_app.utils import processes_utils, files_utils
@@ -137,6 +137,37 @@ def start_directory_compression_process(request):
 
             if files_utils.check_if_user_have_enough_space_for_file(request.user, directory_size):
                 processes_utils.start_file_process_for_user(request.user.id, "DirectoryCompression", directory.uuid)
+                messages.add_message(request, messages.SUCCESS, MessagesConsts.PROCESS_STARTED_SUCCESSFULLY)
+
+                return redirect("core:processes")
+
+            else:
+                messages.add_message(request, messages.ERROR, MessagesConsts.NOT_ENOUGH_STORAGE_FOR_OPERATION)
+
+    return render(request, "start_process.html", {"form": form})
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def start_video_compatibility_conversion_process(request):
+    form = forms.StartVideoCompatibilityConversionProcessForm(data=request.POST or None)
+    form.user = request.user
+
+    files = models.File.objects.filter(owner=request.user).all()
+    form.fields["file_name"].choices = \
+        [(file.name, file.name) for file in files if file.extension in MediaConsts.COMMON_VIDEO_EXTENSIONS]
+
+    if request.method == "POST":
+        if form.is_valid():
+            file_name = form.cleaned_data["file_name"]
+            re_encode = form.cleaned_data["re_encode"]
+            file = models.File.objects.filter(owner=request.user, name=file_name).first()
+
+            if files_utils.check_if_user_have_enough_space_for_file(request.user, file.size):
+                processes_utils.start_file_process_for_user(request.user.id, "VideoCompatibilityConversion", file.uuid, {
+                    "re_encode": re_encode,
+                })
+
                 messages.add_message(request, messages.SUCCESS, MessagesConsts.PROCESS_STARTED_SUCCESSFULLY)
 
                 return redirect("core:processes")

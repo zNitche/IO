@@ -127,7 +127,6 @@ def tmp_directory_scope(path):
 
     try:
         os.mkdir(dir_path)
-
         yield dir_path
 
     except:
