@@ -7,3 +7,4 @@ migrations/
 *.env
 *.log
 storage/
+tmp_storage/
