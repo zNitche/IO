@@ -124,10 +124,6 @@ body {
     width: 80%
 }
 
-.video-player-container video {
-    width: 100%;
-}
-
 .upload-container {
     display: flex !important;
     flex-direction: column;
