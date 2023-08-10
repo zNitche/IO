@@ -27,6 +27,9 @@
               <span>
                   <b>Upload date:</b> {{file.upload_date|date:'d-m-Y G:i'}}
               </span>
+              <span>
+                  <b>Accessible via link:</b> {{file.accessible_via_link}}
+              </span>
             </div>
             <div class="file-details-controls-wrapper">
               {% if file.can_be_previewed %}
@@ -34,10 +37,20 @@
                       Preview
                   </a>
               {% endif %}
+              <form method="POST" action="{% url 'storage_manager:toggle_access_via_link' file_uuid=file.uuid %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">
+                    {% if file.accessible_via_link %}
+                        Disable access via link
+                    {% else %}
+                        Enable access via link
+                    {% endif %}
+                </button>
+              </form>
               <button type="button" class="btn btn-danger" data-bs-target="#removeFileModal" data-bs-toggle="modal">
                   Remove
               </button>
-              <form method="get" action="{% url 'storage_manager:download_file' file_uuid=file.uuid %}">
+              <form method="GET" action="{% url 'storage_manager:download_file' file_uuid=file.uuid %}">
                 <button type="submit" class="btn btn-primary">
                     Download
                 </button>

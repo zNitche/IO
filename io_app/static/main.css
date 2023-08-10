@@ -249,7 +249,11 @@ body {
     align-items: center;
     cursor: pointer;
     width: 20%;
+}
+
+.recent-file span {
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .recent-file:hover {

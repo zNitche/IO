@@ -1,0 +1,47 @@
+{% extends "page_layout.html" %}
+{% load static %}
+{% block page_content %}
+    <!-- Page content -->
+    <div class="page-content-wrapper mb-3">
+        <div class="content-wrapper">
+            <h3>{{file.name}}</h3>
+            <div class="file-details-wrapper">
+              <span>
+                  <b>UUID:</b> {{file.uuid}}
+              </span>
+              <span>
+                  <b>Directory:</b>{{file.get_directory_name}}
+              </span>
+              <span>
+                  <b>Size:</b> {{file.get_file_size_in_mb}}MB
+              </span>
+              <span>
+                  <b>Extension:</b> {{file.extension}}
+              </span>
+              <span>
+                  <b>Upload date:</b> {{file.upload_date|date:'d-m-Y G:i'}}
+              </span>
+              <span>
+                  <b>Accessible via link:</b> {{file.accessible_via_link}}
+              </span>
+            </div>
+            <div class="file-details-controls-wrapper">
+              {% if file.can_be_previewed %}
+                  <a class="btn btn-secondary" href="{% url 'storage_manager:preview_raw' file_uuid=file.uuid %}" role="button" target="_blank">
+                      Preview
+                  </a>
+              {% endif %}
+              {% if user == file.owner %}
+                  <a class="btn btn-success" href="{% url 'storage_manager:file_management' file_uuid=file.uuid %}" role="button">
+                      Manage
+                  </a>
+              {% endif %}
+              <form method="GET" action="{% url 'storage_manager:download_file' file_uuid=file.uuid %}">
+                <button type="submit" class="btn btn-primary">
+                    Download
+                </button>
+              </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

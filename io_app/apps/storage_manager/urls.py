@@ -7,8 +7,11 @@ app_name = "storage_manager"
 urlpatterns = [
     path("upload/", files_views.upload, name="upload"),
     path("upload_file/", files_views.upload_file, name="upload_file"),
+    path("files/<str:file_uuid>/", files_views.preview, name="preview"),
     path("files/<str:file_uuid>/download/", files_views.download_file, name="download_file"),
     path("files/<str:file_uuid>/remove/", files_views.remove_file, name="remove_file"),
+    path("files/<str:file_uuid>/toggle_access_via_link/", files_views.toggle_access_via_link,
+         name="toggle_access_via_link"),
     path("files/<str:file_uuid>/preview/", files_views.preview_raw, name="preview_raw"),
     path("files/<str:file_uuid>/stream/", files_views.stream_media_file, name="stream_media_file"),
     path("files/<str:file_uuid>/management/", files_views.file_management, name="file_management"),

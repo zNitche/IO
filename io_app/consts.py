@@ -8,6 +8,7 @@ class MessagesConsts:
     FILE_UPLOAD_FAILED_SIZE_MISMATCH = "file upload failed size mismatch"
     FILE_UPLOAD_FAILED_SIZE_MISMATCH_LOG = "file upload '{filename}' failed size mismatch, {org_size} vs {saved_size}"
     FILE_REMOVED_SUCCESSFULLY = "File removed successfully"
+    ACCESS_VIA_LINK_CHANGED = "Access via link has been updated"
     DIRECTORY_REMOVED_SUCCESSFULLY = "Directory removed successfully"
     DIRECTORY_EXISTS = "Directory exists"
     DIRECTORY_DOESNT_EXIST = "Directory doesn't exist"

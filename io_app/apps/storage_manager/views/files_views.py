@@ -91,12 +91,26 @@ def upload_file(request):
     return JsonResponse(data=response_data, status=response_status)
 
 
-@login_required
+@require_http_methods(["GET"])
+def preview(request, file_uuid):
+    file = get_object_or_404(models.File, uuid=file_uuid)
+
+    if file.accessible_via_link or file.owner == request.user or file.check_if_shared_to_user(request.user):
+        context = {
+            "file": file,
+        }
+
+        return render(request, "file_preview.html", context)
+
+    else:
+        raise Http404
+
+
 @require_http_methods(["GET"])
 def download_file(request, file_uuid):
     file = get_object_or_404(models.File, uuid=file_uuid)
 
-    if file.owner == request.user or file.check_if_shared_to_user(request.user):
+    if file.accessible_via_link or file.owner == request.user or file.check_if_shared_to_user(request.user):
         file_path = os.path.join(settings.STORAGE_PATH, str(file.owner.id), file.uuid)
 
         return common_utils.send_file(file_path, file.name)
@@ -114,6 +128,18 @@ def remove_file(request, file_uuid):
     messages.add_message(request, messages.SUCCESS, MessagesConsts.FILE_REMOVED_SUCCESSFULLY)
 
     return redirect("core:home")
+
+
+@login_required
+@require_http_methods(["POST"])
+def toggle_access_via_link(request, file_uuid):
+    file = get_object_or_404(models.File, uuid=file_uuid, owner=request.user)
+    file.accessible_via_link = not file.accessible_via_link
+    file.save()
+
+    messages.add_message(request, messages.SUCCESS, MessagesConsts.ACCESS_VIA_LINK_CHANGED)
+
+    return redirect("storage_manager:file_management", file_uuid=file_uuid)
 
 
 @login_required
@@ -141,12 +167,11 @@ def file_management(request, file_uuid):
     return render(request, "file_management.html", context)
 
 
-@login_required
 @require_http_methods(["GET"])
 def preview_raw(request, file_uuid):
     file = get_object_or_404(models.File, uuid=file_uuid)
 
-    if file.owner == request.user or file.check_if_shared_to_user(request.user):
+    if file.accessible_via_link or file.owner == request.user or file.check_if_shared_to_user(request.user):
         file_path = os.path.join(settings.STORAGE_PATH, str(file.owner.id), file.uuid)
         media_extensions = MediaConsts.COMMON_VIDEO_EXTENSIONS + MediaConsts.COMMON_AUDIO_EXTENSIONS
 
@@ -159,32 +184,33 @@ def preview_raw(request, file_uuid):
         raise Http404
 
 
-@login_required
 @require_http_methods(["GET"])
 def stream_media_file(request, file_uuid):
     file = get_object_or_404(models.File, uuid=file_uuid)
-    media_extensions = MediaConsts.COMMON_VIDEO_EXTENSIONS + MediaConsts.COMMON_AUDIO_EXTENSIONS
 
-    if file.extension in media_extensions:
-        range_header = request.headers.get("range")
+    if file.accessible_via_link or file.owner == request.user or file.check_if_shared_to_user(request.user):
+        media_extensions = MediaConsts.COMMON_VIDEO_EXTENSIONS + MediaConsts.COMMON_AUDIO_EXTENSIONS
 
-        if range_header:
-            file_path = os.path.join(settings.STORAGE_PATH, str(file.owner.id), file.uuid)
-            file_size = files_utils.get_size_of_file(file_path)
+        if file.extension in media_extensions:
+            range_header = request.headers.get("range")
 
-            chunk_start = int(re.sub("\D", "", range_header))
-            chunk_end = min(chunk_start + settings.MEDIA_FILE_STREAMING_CHUNK_SIZE, file_size - 1)
+            if range_header:
+                file_path = os.path.join(settings.STORAGE_PATH, str(file.owner.id), file.uuid)
+                file_size = files_utils.get_size_of_file(file_path)
 
-            headers = {
-                "Content-Range": f"bytes {chunk_start}-{chunk_end}/{file_size}",
-                "Accept-Ranges": "bytes",
-                "Content-Length": chunk_end - chunk_start + 1,
-                "Content-Type": "video/mp4",
-            }
+                chunk_start = int(re.sub("\D", "", range_header))
+                chunk_end = min(chunk_start + settings.MEDIA_FILE_STREAMING_CHUNK_SIZE, file_size - 1)
 
-            file_chunk = files_utils.get_file_chunk(file_path, chunk_start, settings.MEDIA_FILE_STREAMING_CHUNK_SIZE)
+                headers = {
+                    "Content-Range": f"bytes {chunk_start}-{chunk_end}/{file_size}",
+                    "Accept-Ranges": "bytes",
+                    "Content-Length": chunk_end - chunk_start + 1,
+                    "Content-Type": "video/mp4",
+                }
 
-            return HttpResponse(file_chunk, headers=headers, status=206)
+                file_chunk = files_utils.get_file_chunk(file_path, chunk_start, settings.MEDIA_FILE_STREAMING_CHUNK_SIZE)
+
+                return HttpResponse(file_chunk, headers=headers, status=206)
 
     raise Http404
 
