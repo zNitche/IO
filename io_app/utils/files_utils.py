@@ -70,7 +70,10 @@ def remove_user_file(user_id, file_uuid):
     file_path = os.path.join(settings.STORAGE_PATH, str(user_id), file_uuid)
 
     if os.path.exists(file_path):
-        os.remove(file_path)
+        if not os.path.isdir(file_path):
+            os.remove(file_path)
+        else:
+            shutil.rmtree(file_path)
 
 
 def save_file_from_request(request, file_path):
