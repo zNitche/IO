@@ -87,9 +87,18 @@ WSGI_APPLICATION = 'io_app.wsgi.application'
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 
+# DB Migrations
+# https://docs.djangoproject.com/en/4.2/ref/settings/#migration-modules
+MIGRATION_MODULES = {
+    "users": "database.migrations.users",
+    "core": "database.migrations.core",
+    "authenticate": "database.migrations.authenticate",
+    "storage_manager": "database.migrations.storage_manager",
+    "api": "database.migrations.api",
+}
+
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
